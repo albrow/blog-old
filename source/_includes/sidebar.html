@@ -23,35 +23,18 @@
 				{% endcomment %}
 
 
-				<!-- <ul class="nav">
-					<% if yield(:active) == 'home' %>
-						<li class="active">
-					<% else %>
-						<li>
-					<% end %>
-					<%= link_to root_path do %>
-						<span>
-							Home
-						</span>
-					<% end %>
+				<ul class="nav">
+					<li>
+						<a href="/">
+							<span>
+								Home
+							</span>
+						</a>
 					</li>
+
 					<br/>
-					<% (Post.by_date.limit(6)).each do |p| %>
-						<%= render "posts/post_link", :post => p, :active => yield(:active) %>
-					<% end %>
-					<br/>
-					<% if yield(:active) == 'archive' %>
-						<li class="active">
-					<% else %>
-						<li>
-					<% end %>
-					<%= link_to posts_path do %>
-						<span>
-							Archive
-						</span>
-					<% end %>
-				</li>
-				</ul> -->
+					
+				</ul>
 			</div>
 
 		</div>
