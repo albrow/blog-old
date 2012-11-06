@@ -1,0 +1,65 @@
+<div id="wrap">
+
+		<div id="main">
+
+			<div class="sidebar-header padding-more">
+				<h2>
+					<a class="link-grey" href="{{ root_url }}">
+						Alex Browne
+					</a>
+				</h2>
+				<br/>
+				<p class="yano" id="tagline">
+					Ramblings of a technological and<br/>philisophical nature.
+				</p>
+			</div>
+
+			<hr/>
+			<br/>
+
+			<div class="sidebar-nav">
+				{% comment %}
+					TODO: set up the navigation in the sidebar...
+				{% endcomment %}
+
+
+				<!-- <ul class="nav">
+					<% if yield(:active) == 'home' %>
+						<li class="active">
+					<% else %>
+						<li>
+					<% end %>
+					<%= link_to root_path do %>
+						<span>
+							Home
+						</span>
+					<% end %>
+					</li>
+					<br/>
+					<% (Post.by_date.limit(6)).each do |p| %>
+						<%= render "posts/post_link", :post => p, :active => yield(:active) %>
+					<% end %>
+					<br/>
+					<% if yield(:active) == 'archive' %>
+						<li class="active">
+					<% else %>
+						<li>
+					<% end %>
+					<%= link_to posts_path do %>
+						<span>
+							Archive
+						</span>
+					<% end %>
+				</li>
+				</ul> -->
+			</div>
+
+		</div>
+
+	</div>
+
+	<div id="footer">
+		<div class="sidebar-footer">
+			<i>&copy; 2012</i> <strong>Alex Browne</strong>
+		</div>
+	</div>
