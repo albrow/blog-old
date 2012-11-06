@@ -6,17 +6,17 @@
 
 			<div class="container">
 
-				<!-- <div class="topbar">
-					<%= render 'layouts/topbar' %>
+				<div class="topbar">
+					{% include topbar.html %}
 				</div>
 
 			  <aside class="sidebar">
-			    <%= render 'layouts/sidebar' %>
+			    {% include sidebar.html %}
 			  </aside>
 
 			  <article class="content">
-			    <%= yield %>
-			  </article> -->
+			    {{ content }}
+			  </article>
 				
 				<div class="clearfix"></div>
 			</div>
