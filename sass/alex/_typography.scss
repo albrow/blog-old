@@ -1,0 +1,71 @@
+@font-face {
+  font-family: "Yanone Kaffeesatz";
+  src: font-url('yanonekaffeesatz-regular-webfont.eot');
+  src: local('Merriweather'), 
+  	font-url('yanonekaffeesatz-regular-webfont.eot?#iefix') format("embedded-opentype"),
+  	font-url('yanonekaffeesatz-regular-webfont.woff') format("woff"),
+  	font-url('yanonekaffeesatz-regular-webfont.ttf') format("truetype"),
+  	font-url('yanonekaffeesatz-regular-webfont.svg#MerriweatherRegular') format("svg");
+}
+
+::selection {
+	background: lighten(desaturate($blue, 70%), 50%);	
+	color: $dark-grey;
+}
+
+.yano {
+	font-family: "Yanone Kaffeesatz", "Helvetica Neue", "Helvetica", helvetica, sans-serif, arial;
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 22px;
+	letter-spacing: 1px;
+}
+
+body {
+	font-family: "Helvetica Neue", "Helvetica", helvetica, sans-serif, arial;
+	font-size: 16px;
+	line-height: 18px;
+	color: $dark-grey;
+	p {
+		font-size: 16px;
+		line-height: 18px;
+	}
+}
+
+h1, h2, h3 {
+	font-family: "Yanone Kaffeesatz", "Helvetica Neue", "Helvetica", helvetica, sans-serif, arial;
+	font-weight: 400;
+	letter-spacing: 1px;
+	margin: 0px;
+}
+
+h1 {
+	font-size: 56px;
+	line-height: 62px;
+}
+
+h2 {
+	font-size: 42px;
+	line-height: 50px;
+}
+
+h3 {
+	font-size: 32px;
+	line-height: 38px;
+}
+
+h4 {
+	font-size: 20px;
+	line-height: 24px;
+	color: $light-grey;
+	text-shadow: 0px 0px 1px darken($light-grey, 10%),
+								0px -1px 0px $white;
+}
+
+h5 {
+	font-size: 18px;
+	line-height: 22px;
+	color: $light-grey;
+	text-shadow: 0px 0px 1px darken($light-grey, 10%),
+								0px -1px 0px $white;
+}

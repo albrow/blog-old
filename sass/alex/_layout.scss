@@ -1,0 +1,276 @@
+$sidebar-width: 25%;
+$sidebar-max-width: 320px;
+$sidebar-min-width: 290px;
+$footer-height: 55px;
+
+body {
+	background-color: #f6f4f1;
+	background-image: url('/images/bg.jpg');
+	padding: 0px;
+	margin: 0px;
+}
+
+a {
+	color: $blue;
+	text-decoration: none;
+	@include transition(color 0.3s);
+	&:hover, &:active {
+		color: darken($blue, 14%);
+	}
+}
+
+.padding {
+	padding: 10px;
+	@include box-sizing(border-box);
+}
+
+.padding-more {
+	padding: 20px;
+	@include box-sizing(border-box);
+}
+
+.padding-most {
+	padding: 40px;
+	@include box-sizing(border-box);
+}
+
+.inline {
+	display: inline;
+}
+
+.inline-block {
+	display: inline-block;
+}
+
+input:not(.btn), textarea, select, .uneditable-input {
+  border: 1px solid #bbb;
+  width: 100%;
+  padding: 10px;
+  height: auto;
+  margin-bottom: 15px;
+  @include box-sizing(border-box);
+}
+
+.top-decor {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 99;
+	width: 100%;
+	height: 5px;
+	background-color: $dark-grey;
+}
+
+.container {
+	@include box-sizing(border-box);
+	width: 100%;
+	padding-left: $sidebar-width;
+}
+
+.sidebar {
+	@include box-sizing(border-box);
+	background-color: #f6f4f1;
+	background-image: url('bg.jpg');
+	border-right: 1px solid lighten($light-grey, 10%);
+	height: 100%;
+	position: fixed;
+	margin-left: -$sidebar-width;
+	width: $sidebar-width;
+	@include box-shadow(inset 0 0 60px darken($almost-white, 10%));
+}
+
+.sidebar-footer {
+	padding: 20px;
+	font-size: 13px;
+}
+
+.topbar {
+	@include box-sizing(border-box);
+	background-color: $dark-grey;
+	color: $white;
+	width: 0px;
+	height: 0px;
+	overflow: hidden;
+	padding: 0;
+	border-bottom: 1px solid $black;
+	margin: 0;
+	font-weight: 300;
+	.title, .title-abbr {
+		float: left;
+		@include box-sizing(border-box);
+		overflow: hidden;
+	}
+	.title-abbr {
+		width: 0;
+	}
+	.archive-button-container {
+		float: right;
+		margin-top: 15px;
+		.btn {
+			margin-left: 12px;
+		}
+	}
+}
+
+
+.content {
+	@include box-sizing(border-box);
+	background-color: #f6f4f1;
+	background-image: url('bg.jpg');
+	margin-top: 5px;
+	min-height: 100%;
+	width: 100%;
+	z-index: 99;
+	@include box-shadow(inset 0 0 60px darken($almost-white, 10%));
+}
+
+.clearfix {
+	@include clearfix;
+}
+
+img {
+	max-width: 600px;
+	width: 90%;
+}
+
+.small {
+	font-size: 13px;
+	font-weight: 500;
+	color: lighten($dark-grey, 25%);
+	margin-left: 5px;
+}
+
+hr {
+	color: lighten($light-grey, 10%);
+	background-color: lighten($light-grey, 10%);
+	height: 1px;
+	border: none;
+	@include box-shadow(0 0 25px darken($almost-white, 25%));
+}
+
+.link-white {
+	color: $white;
+	&:hover, &:active {
+		color: $white;
+	}
+}
+
+.link-grey {
+	color: $dark-grey;
+	&:hover, &:active {
+		color: $dark-grey;
+	}
+}
+
+// for extra-small screens (old mobile) 
+@media screen and (max-width: 470px) {
+	.topbar {
+
+		// hide the full title
+		.title {
+			width: 0;
+		}
+		// show abbreviated title
+		.title-abbr {
+			width: auto;
+		}
+
+	}
+}
+
+// for smaller screens (mostly mobile)
+@media screen and (max-width: 799px) {
+	// basically we want to hide the sidebar
+	// and show the topbar...
+	.sidebar {
+		width: 0;
+		height: 0;
+		overflow: hidden;
+	}
+	.container {
+		padding-left: 0;
+	}
+	.content {
+		margin-top: 0px;
+	}
+	.topbar {
+		width: 100%;
+		height: 70px;
+		padding: 10px;
+		padding-left: 20px;
+		padding-right: 20px;
+		margin-top: 5px;
+	}
+	.padding-most {
+		padding: 20px;
+	}
+	.padding-more {
+		padding: 12px;
+	}
+	.padding {
+		padding: 6px;
+	}
+}
+
+
+
+// for medium screens
+@media screen and (max-width: 1192px) and (min-width: 800px) {
+	// implement a minimum width for sidebar
+	// content will continue to shrink
+	.sidebar {
+		width: $sidebar-min-width;
+		margin-left: -$sidebar-min-width;
+	}
+	.container {
+		padding-left: $sidebar-min-width;
+	}
+}
+
+
+// for big screens...
+@media screen and (min-width: 1280px) {
+	// fix the width of the sidebar
+	.sidebar {
+		width: $sidebar-max-width;
+		margin-left: -$sidebar-max-width;
+	}
+	.container {
+		padding-left: $sidebar-max-width;
+	}
+}
+
+
+// --------------------------------------------------------------  
+// Sticky Footer Solution
+// by Steve Hatcher 
+// http://stever.ca
+// http://www.cssstickyfooter.com
+
+
+//* {margin:0;padding:0;} 
+
+/* must declare 0 margins on everything, also for main layout components use padding, not 
+vertical margins (top and bottom) to add spacing, else those margins get added to total height 
+and your footer gets pushed down a bit more, creating vertical scroll bars in the browser */
+
+html, body {height: 100%;}
+
+#wrap {min-height: 100%;}
+
+#main {overflow:auto;
+	padding-bottom: $footer-height;}  /* must be same height as the footer */
+
+#footer {position: relative;
+	margin-top: -$footer-height; /* negative value of footer height */
+	height: $footer-height;
+	clear:both;} 
+
+/*Opera Fix*/
+body:before {/* thanks to Maleika (Kohoutec)*/
+content:"";
+height:100%;
+float:left;
+width:0;
+margin-top:-32767px;/* thank you Erik J - negate effect of float*/
+}

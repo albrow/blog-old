@@ -1,0 +1,47 @@
+.post-container {
+	max-width: 850px;
+}
+
+
+.post-previews-list {
+	margin: 0;
+	padding: 0;
+}
+
+li.post-preview {
+	list-style: none;
+	border-bottom: 1px solid lighten($light-grey, 10%);
+	.post-date {
+		display: inline-block;
+		margin-left: 20px;
+		color: $dark-grey;
+	}
+	.post-title {
+		color: $dark-grey;
+	}
+	&:hover {
+		cursor: pointer;
+		background-color: white;
+		.post-title {
+			color: $blue;
+		}
+	}
+	.content-preview {
+		color: lighten($dark-grey, 25%);
+		max-width: 850px;
+		padding-right: 30px;
+		margin-top: 5px;
+	}
+}
+
+.post-link-title {
+	display: inline-block;
+	width: 185px;
+}
+
+.post-link-date {
+	display: inline-block;
+	width: 48px;
+	text-align: left;
+	margin-left: 0;
+}
