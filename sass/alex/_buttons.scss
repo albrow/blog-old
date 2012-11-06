@@ -1,0 +1,40 @@
+.btn {
+	font-family: "Helvetica Neue", "Helvetica", helvetica, sans-serif, arial;
+	border-radius: 5px;
+	font-size: 15px;
+	height: 40px;
+	padding: 4px;
+	padding-left: 16px;
+	padding-right: 16px;
+	border: none;
+	background-color: lighten($dark-grey, 10%);
+	color: $white;
+	//text-shadow: 0px 1px 1px black;
+	&:hover {
+		cursor: pointer;
+		background-color: $dark-grey;
+		color: $white;
+	}
+	&:active {
+		background-color: $dark-grey;
+		color: $white;
+	}
+}
+
+.btn.btn-blue {
+	background-color: darken($blue, 5%);
+	&:hover {
+		background-color: darken($blue, 14%);
+	}
+	&:active {
+		background-color: darken($blue, 14%);
+	}
+}
+
+.btn.btn-large {
+	height: 60px;
+	padding: 8px;
+	padding-left: 16px;
+	padding-right: 16px;
+	font-weight: 500;
+}

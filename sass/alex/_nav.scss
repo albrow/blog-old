@@ -1,0 +1,53 @@
+ul.nav {
+	list-style: none;
+	margin-left: 0;
+	padding-left: 0;
+	li {
+		width: 100%;
+		a {
+			@include transition(all 0.3s);
+			display: inline-block;
+			width: 100%;
+			@include box-sizing(border-box);
+			color: $blue;
+			text-decoration: none;
+			padding-left: 20px;
+			padding-right: 20px;
+			padding-top: 8px;
+			padding-bottom: 8px;
+			margin-top: 2px;
+			margin-bottom: 2px;
+			&:hover {
+				//background-color: darken($white, 8%);
+				cursor: pointer;
+				color: darken($blue, 14%);
+				padding-left: 24px;
+			}
+		}
+	}
+	li.active, li.active:hover {
+		width: 100%;
+		a, a:hover {
+			padding-left: 8px;
+			color: $blue;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			&:before {
+				@include box-sizing(border-box);
+				content: ". .";
+				background-color: $dark-grey;
+				color: $dark-grey;
+				width: 20px;
+				height: 18px;
+				position: relative;
+				padding-top: 6px;
+				padding-bottom: 6px;
+				margin-top: 2px;
+				margin-bottom: 2px;
+				left: -14px;
+			}
+		}
+	}
+}
