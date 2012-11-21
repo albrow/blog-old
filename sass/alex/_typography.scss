@@ -1,7 +1,13 @@
-$sans: "Helvetica Neue", "Helvetica", helvetica, arial, sans-serif !default;
-$serif: "PT Serif", Georgia, Times, "Times New Roman", serif !default;
-$header-font-family: "Yanone Kaffeesatz", "Georgia", "Helvetica Neue", "Helvetica", helvetica, arial, sans-serif !default;
+$sans: "Helvetica Neue", "Helvetica", helvetica, arial, sans-serif;
+$serif: "PT Serif", Georgia, Times, "Times New Roman", serif;
+$header-font-family: "Yanone Kaffeesatz", "Georgia", "Helvetica Neue", "Helvetica", helvetica, arial, sans-serif;
 $yano: "Yanone Kaffeesatz", "Helvetica Neue", "Helvetica", helvetica, sans-serif, arial;
+
+$text-color: $dark-grey;
+$text-color-light: $grey;
+$type-border: $light-grey;
+
+$blockquote: $type-border;
 
 @font-face {
   font-family: "Yanone Kaffeesatz";
@@ -81,12 +87,6 @@ h5 {
 strong {
 	font-weight: 900 !important;
 }
-
-$text-color: #222 !default;
-$text-color-light: #aaa !default;
-$type-border: #ddd !default;
-
-$blockquote: $type-border !default;
 
 blockquote {
 	font-family: $serif;
