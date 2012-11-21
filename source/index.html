@@ -3,12 +3,12 @@ layout: default
 active: home
 ---
 
-<ul>
-  {% for post in site.posts %}
-    {% include post/post.html %}
-    <hr/>
-  {% endfor %}
-</ul>
+{% for post in site.posts %}
+  {% include post/post.html %}
+  {% unless forloop.last %}
+  <hr/>
+  {% endunless %}
+{% endfor %}
 
 <!-- 
 <div class="blog-index">

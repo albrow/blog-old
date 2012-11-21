@@ -2,7 +2,7 @@ ul.nav {
 	list-style: none;
 	margin-left: 0;
 	padding-left: 0;
-	li {
+	>li {
 		width: 100%;
 		a {
 			display: inline-block;
@@ -25,7 +25,7 @@ ul.nav {
 			}
 		}
 	}
-	li.active, li.active:hover {
+	>li.active, >li.active:hover {
 		width: 100%;
 		a, a:hover {
 			padding-left: 8px;

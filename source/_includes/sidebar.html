@@ -18,9 +18,6 @@
 			<br/>
 
 			<div class="sidebar-nav">
-				{% comment %}
-					TODO: set up the navigation in the sidebar...
-				{% endcomment %}
 
 				<ul class="nav">
 					{% if page.active == 'home' %}
@@ -36,6 +33,10 @@
 					</li>
 
 					<br/>
+
+					{% for post in site.posts limit: 5 %}
+				    {% include post/post_link.html %}
+				  {% endfor %}
 
 					{% if page.active == 'archive' %}
 					<li class="active">
