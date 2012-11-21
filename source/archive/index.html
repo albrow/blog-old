@@ -1,0 +1,12 @@
+---
+layout: default
+title: "Archive"
+active: archive
+date: 2012-11-20 22:56
+---
+
+<ul>
+  {% for post in site.posts %}
+  	{% include post/post_preview.html %}
+  {% endfor %}
+</ul>
