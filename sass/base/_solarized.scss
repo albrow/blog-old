@@ -1,19 +1,29 @@
-$base03:          #002b36 !default; //darkest blue
-$base02:          #073642 !default; //dark blue
-$base01:          #586e75 !default; //darkest gray
-$base00:          #657b83 !default; //dark gray
-$base0:           #839496 !default; //medium gray
-$base1:           #93a1a1 !default; //medium light gray
-$base2:           #eee8d5 !default; //cream
-$base3:           #fdf6e3 !default; //white
-$solar-yellow:    #b58900 !default;
-$solar-orange:    #cb4b16 !default;
-$solar-red:       #dc322f !default;
-$solar-magenta:   #d33682 !default;
-$solar-violet:    #6c71c4 !default;
-$solar-blue:      #268bd2 !default;
-$solar-cyan:      #2aa198 !default;
-$solar-green:     #859900 !default;
+$base03:          $dark-grey !default;
+$base02:          lighten($dark-grey, 5%) !default;
+$base01:          $grey !default;
+$base00:          darken($dark-grey, 5%) !default;
+$base0:           lighten($dark-grey, 10%) !default;
+$base1:           $light-grey;
+$base2:           $almost-white;
+$base3:           $white;
+
+// $solar-yellow:    #b58900 !default;
+// $solar-orange:    #cb4b16 !default;
+// $solar-red:       #dc322f !default;
+// $solar-magenta:   #d33682 !default;
+// $solar-violet:    #6c71c4 !default;
+// $solar-blue:      #268bd2 !default;
+// $solar-cyan:      #2aa198 !default;
+// $solar-green:     #859900 !default;
+
+$solar-yellow:    #B5A600 !default;
+$solar-orange:    #CC6B16 !default;
+$solar-red:       #DB422E !default;
+$solar-magenta:   #D43769 !default;
+$solar-violet:    #766CC4 !default;
+$solar-blue:      #266DD1 !default;
+$solar-cyan:      #00B8CC !default;
+$solar-green:     #72A300 !default;
 
 $solarized: dark !default;
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Test Post"
+title: "Test Post with Code"
 date: 2012-11-20 23:02
 ---
 
@@ -20,6 +20,11 @@ Article
 class Fixnum
   def prime?
     ('1' * self) !~ /^1?$|^(11+?)\1+$/
+    :symbol
+    "string with \n special \t characters \n"
   end
+	
+	CONSTANT = "yes"
+
 end
 ```
