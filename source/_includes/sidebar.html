@@ -22,9 +22,12 @@
 					TODO: set up the navigation in the sidebar...
 				{% endcomment %}
 
-
 				<ul class="nav">
+					{% if page.active == 'home' %}
+					<li class="active">
+					{% else %}
 					<li>
+					{% endif %}
 						<a href="/">
 							<span>
 								Home
@@ -33,6 +36,18 @@
 					</li>
 
 					<br/>
+
+					{% if page.active == 'archive' %}
+					<li class="active">
+					{% else %}
+					<li>
+					{% endif %}
+						<a href="/archive">
+							<span>
+								Archive
+							</span>
+						</a>
+					</li>
 					
 				</ul>
 			</div>

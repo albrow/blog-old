@@ -1,0 +1,12 @@
+<a href="{{ post.url }}" title="{{ post.title }}">
+	<li class="post-preview padding-more">
+		<h3 class="inline post-title">{{ post.title }}</h3>
+		<div class="post-date">
+			{{ post.date_formatted }}
+			<span class="small"> {{ post.date | time_ago_in_words }} </span>
+		</div>
+		<div class="content-preview">
+			{{ post.content | strip_html | truncate: 355 }}
+		</div>	
+	</li>
+</a>
