@@ -1,0 +1,16 @@
+{% capture url %}{% current_url %}{% endcapture %}
+{% if url == post.url %}
+	<li class="active">
+{% else %}
+	<li>
+{% endif %}
+	<a href="{{ post.url }}">
+		<span class="post-link-date small">
+			{{ post.date | date: "%b %e" }}
+		</span>
+
+		<span class="post-link-title">
+			{{ post.title | truncate: 25 }}
+		</span>
+	</a>
+</li>
