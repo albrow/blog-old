@@ -28,3 +28,38 @@ class Fixnum
 
 end
 ```
+
+{% gist 996818 %}
+
+```css
+.yano {
+	font-family: "Yanone Kaffeesatz", "Helvetica Neue", "Helvetica", helvetica, sans-serif, arial;
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 22px;
+	letter-spacing: 1px;
+}
+
+body {
+	font-family: "Helvetica Neue", "Helvetica", helvetica, sans-serif, arial;
+	font-size: 16px;
+	line-height: 22px;
+	color: $dark-grey;
+	p {
+		font-size: 16px;
+		line-height: 22px;
+	}
+}
+
+h1, h2, h3 {
+	font-family: "Yanone Kaffeesatz", "Helvetica Neue", "Helvetica", helvetica, sans-serif, arial;
+	font-weight: 400;
+	letter-spacing: 1px;
+	margin: 0px;
+}
+
+h1 {
+	font-size: 56px;
+	line-height: 62px;
+}
+```
