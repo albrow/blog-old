@@ -37,6 +37,8 @@
 					{% for post in site.posts limit: 5 %}
 				    {% include post/post_link.html %}
 				  {% endfor %}
+					
+					<br/>
 
 					{% if page.active == 'archive' %}
 					<li class="active">
