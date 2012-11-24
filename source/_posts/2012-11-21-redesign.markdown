@@ -1,0 +1,17 @@
+---
+layout: post
+title: "Redesign"
+date: 2012-11-2 21:10
+comments: true
+categories: 
+---
+
+I was never very happy with the way the old design looked, and I finally got around to changing it.
+
+Credit where it's due- The two-panel layout is sort of copied from [Svbtle](https://svbtle.com/home). The color scheme and header fonts are derived from [ActiveAdmin](http://activeadmin.info/). The indicators on the navigation bar on the left are like the ones in the Chrome settings menu (and other places I'm sure, but that's where I first noticed it). The subtle textures, shadows, and animations are more or less original. This is also my first attempt at responsive design. Resize the window or visit on your smartphone to see the difference.
+
+I switched the server over to [Unicorn](http://blog.railsonfire.com/2012/05/06/Unicorn-on-Heroku.html) and ported all the images to
+[CloudFront](http://aws.amazon.com/cloudfront/) for faster loadtimes. I'm looking into transforming the blog into a static site (e.g. with 
+[Jekyll](https://github.com/mojombo/jekyll)) to get even better performance. I'll talk more about my configuration if/when that happens.
+
+Ha, don't get too used to it. Knowing me, I'll probably swap out this design for a newer one a few months from now.
