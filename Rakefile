@@ -8,7 +8,8 @@ ssh_user       = "user@domain.com"
 ssh_port       = "22"
 document_root  = "~/website.com/"
 rsync_delete   = false
-deploy_default = "rsync"
+deploy_default = "s3cmd"
+s3_bucket      = "alex-blog-new"
 
 # This will be configured for you when you run config_deploy
 deploy_branch  = "gh-pages"
@@ -217,6 +218,16 @@ task :deploy do
 
   Rake::Task[:copydot].invoke(source_dir, public_dir)
   Rake::Task["#{deploy_default}"].execute
+end
+
+## copied from http://hypertext.net/2012/09/s3-bucket-octopress
+task :s3cmd do
+  puts "========================================="
+  puts "Deploying to Amazon S3 [#{s3_bucket}]"
+  puts "========================================="
+  puts "--> syncing..."
+  ok_failed system("s3cmd sync --acl-public --reduced-redundancy --delete-removed public/* s3://#{s3_bucket}/")
+  puts "done."
 end
 
 desc "Generate website and deploy"

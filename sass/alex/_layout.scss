@@ -146,7 +146,6 @@ hr {
 	background-color: lighten($light-grey, 10%);
 	height: 1px;
 	border: none;
-	@include box-shadow(0 0 25px darken($almost-white, 25%));
 }
 
 .link-white {

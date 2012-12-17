@@ -1,0 +1,26 @@
+// some default styles after the reset...
+
+strong {
+	font-weight: bold; 
+}
+em {
+	font-style: italic;
+}
+del {
+	text-decoration: line-through;
+}
+blockquote,ul,ol {
+	margin: 16px;
+}
+ol,ul {
+	margin-left: 32px;
+}
+ol li {
+	list-style: decimal outside;	
+}
+ul li {
+	list-style: disc outside;
+}
+p,table,pre {
+	margin-bottom: 16px;
+}
