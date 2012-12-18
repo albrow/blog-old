@@ -1,7 +1,6 @@
 require "rubygems"
 require "bundler/setup"
 require "stringex"
-require "jekyll-press"
 
 ## -- Rsync Deploy config -- ##
 # Be sure your public key is listed in your server's ~/.ssh/authorized_keys file
@@ -226,9 +225,23 @@ task :s3cmd do
   puts "========================================="
   puts "Deploying to Amazon S3 [#{s3_bucket}]"
   puts "========================================="
-  puts "--> syncing..."
-  ok_failed system("s3cmd sync --acl-public --reduced-redundancy --delete-removed public/* s3://#{s3_bucket}/")
+  
+  minify_html
+  gzip_all_content
+
+  puts "--> syncing html..."
+  ok_failed system("s3cmd sync --acl-public --reduced-redundancy --add-header=Content-Encoding:gzip --cf-invalidate public/* s3://#{s3_bucket}/ --exclude '*.*' --include '*.html'")
+  puts "--> syncing everything else..."
+  ok_failed system("s3cmd sync --acl-public --reduced-redundancy public/* s3://#{s3_bucket}/ --exclude '*.html'")
   puts "done."
+end
+
+task :gzip do
+  gzip_all_content
+end
+
+task :minify_html do
+  minify_html
 end
 
 desc "Generate website and deploy"
@@ -389,3 +402,58 @@ task :list do
   puts "Tasks: #{(Rake::Task.tasks - [Rake::Task[:list]]).join(', ')}"
   puts "(type rake -T for more detail)\n\n"
 end
+
+##
+# attempts to gzip all html, js, and css
+# if no gzip, skips this step
+def gzip_all_content
+
+  unless which('gzip')
+    puts "WARNING: gzip is not installed on your system. Skipping gzip..."
+    return
+  end
+
+  puts "--> gzipping html..."
+  # gzip html...
+  html_files = Dir.glob("public/**/*.html")
+  html_files.each do |fname|
+    # invoke system gzip
+    system("gzip -n9 #{fname}")
+    # remove the .gz extension
+    system("mv #{fname + '.gz'} #{fname}")
+  end
+  puts "DONE."
+end
+
+##
+# attempts to minify all html using jitify
+# if no jitify, skips this step
+def minify_html
+  
+  unless which('jitify')
+    puts "WARNING: jitify is not installed on your system. Skipping minification of html..."
+    return
+  end
+
+  puts "--> minifying html..."
+  # gzip html...
+  html_files = Dir.glob("public/**/*.html")
+  html_files.each do |fname|
+    # invoke system jitify
+    system("jitify --minify #{fname} > #{fname + '.min'}")
+    # remove the .min extension
+    system("mv #{fname + '.min'} #{fname}")
+  end
+  puts "DONE."
+
+end
+
+##
+# invoke system which to check if a command is supported
+# from http://stackoverflow.com/questions/2108727/which-in-ruby-checking-if-program-exists-in-path-from-ruby
+# which('ruby') #=> /usr/bin/ruby
+def which(cmd)
+  system("which #{ cmd} > /dev/null 2>&1")
+end
+
+
