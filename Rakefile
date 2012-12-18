@@ -230,9 +230,14 @@ task :s3cmd do
   gzip_all_content
 
   puts "--> syncing html..."
-  ok_failed system("s3cmd sync --acl-public --reduced-redundancy --add-header=Content-Encoding:gzip --cf-invalidate public/* s3://#{s3_bucket}/ --exclude '*.*' --include '*.html'")
+  ok_failed system("s3cmd sync --acl-public --reduced-redundancy --add-header=Content-Encoding:gzip public/* s3://#{s3_bucket}/ --exclude '*.*' --include '*.html'")
+  puts "--> syncing css..."
+  ok_failed system("s3cmd sync --acl-public --reduced-redundancy --add-header=Content-Encoding:gzip public/* s3://#{s3_bucket}/ --exclude '*.*' --include '*.css'")
+  puts "--> syncing javascript..."
+  ok_failed system("s3cmd sync --acl-public --reduced-redundancy --add-header=Content-Encoding:gzip public/* s3://#{s3_bucket}/ --exclude '*.*' --include '*.js'")
   puts "--> syncing everything else..."
-  ok_failed system("s3cmd sync --acl-public --reduced-redundancy public/* s3://#{s3_bucket}/ --exclude '*.html'")
+  ok_failed system("s3cmd sync --acl-public --reduced-redundancy public/* s3://#{s3_bucket}/ --exclude '*.html *.js *.css'")
+  # ok_failed system("s3cmd sync --acl-public --reduced-redundancy public/* s3://#{s3_bucket}/")
   puts "done."
 end
 
@@ -422,6 +427,27 @@ def gzip_all_content
     # remove the .gz extension
     system("mv #{fname + '.gz'} #{fname}")
   end
+
+  puts "--> gzipping js..."
+  # gzip js...
+  html_files = Dir.glob("public/**/*.js")
+  html_files.each do |fname|
+    # invoke system gzip
+    system("gzip -n9 #{fname}")
+    # remove the .gz extension
+    system("mv #{fname + '.gz'} #{fname}")
+  end
+
+   puts "--> gzipping css..."
+  # gzip css...
+  html_files = Dir.glob("public/**/*.css")
+  html_files.each do |fname|
+    # invoke system gzip
+    system("gzip -n9 #{fname}")
+    # remove the .gz extension
+    system("mv #{fname + '.gz'} #{fname}")
+  end
+
   puts "DONE."
 end
 
