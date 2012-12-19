@@ -45,14 +45,21 @@ class AWSDeployTools
 			file = File.open(file, 'r')
 		end
 
-		fcontent = file.read
+		f_content = file.read
+		obj_etag = ""
 
 		begin
 	    obj = @s3.buckets[@bucket].objects[s3_key]
-	    md5(obj.read) == md5(fcontent)
+	    obj_etag = obj.etag # the etag is the md5 of the remote file
 	  rescue
-	    return false
+	   return false
 	  end
+
+		# the etag is surrounded by quotations. chomp removes them
+	  obj_etag = obj_etag.gsub('"', '')
+
+		# compare the etag to the md5 hash of the local file
+	  obj_etag == md5(f_content)
 
 	end
 
