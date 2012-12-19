@@ -39,12 +39,13 @@ There are so many people in New York, that traffic laws are pretty much unenforc
 completely dominate any vehicles, and people continue walking long after the lights change to
 "don't walk." At one time, we were walking around time square in the middle of the road (my two
 friends and I). there wasn't a single car in sight. Aloud, I wondered why they
-had closed down the road. As I soon learned, they hadn't; the cars just couldn't get through.
+had closed down the road. They hadn't; the cars just ***could not*** get through.
 
 ### Southern Hospitality is a Myth
 
 Or at the very least, it isn't a rule. During our stay, I
-found that everyone we interacted with would go out of their way to be polite. We had no
+found that everyone we interacted with would go out of their way to be polite. We crashed at a
+friend's apartment for free. We had no
 problem asking for directions, people held doors for us, strangers were open to casual
 conversation, waiters and clerks would chat with us, and people said "excuse me," if we bumped
 into each other on the street.

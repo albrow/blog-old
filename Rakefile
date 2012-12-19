@@ -1,9 +1,7 @@
 require "rubygems"
 require "bundler/setup"
 require "stringex"
-require "aws-sdk"
-require "digest/md5"
-require "colored"
+require "./plugins/aws_deploy_tools"
 
 ## -- Rsync Deploy config -- ##
 # Be sure your public key is listed in your server's ~/.ssh/authorized_keys file
@@ -11,13 +9,7 @@ ssh_user       = "user@domain.com"
 ssh_port       = "22"
 document_root  = "~/website.com/"
 rsync_delete   = false
-deploy_default = "s3cmd"
-config = YAML::load( File.open("_config.yml"))
-s3_bucket_name = config['bucket']
-cf_dist_id = config['cloudfront_dist_id']
-acl = config['acl']
-s3 = AWS::S3.new(:access_key_id => config['access_key_id'], 
-                  :secret_access_key => config['secret_access_key']) 
+deploy_default = "s3_cloudfront"
 
 # This will be configured for you when you run config_deploy
 deploy_branch  = "gh-pages"
@@ -228,91 +220,54 @@ task :deploy do
   Rake::Task["#{deploy_default}"].execute
 end
 
-## copied from http://hypertext.net/2012/09/s3-bucket-octopress
-desc "Deploy website to s3/cloudfront via s3cmd"
-task :s3cmd do
-  puts "========================================="
-  puts "Deploying to Amazon S3 [#{s3_bucket_name}]"
-  puts "========================================="
-  
-  minify_all_html
-  gzip_all_content
-
-  puts "--> syncing html js & css..."
-  ok_failed system("s3cmd sync --acl-public --reduced-redundancy --cf-invalidate --add-header=Content-Encoding:gzip public/* s3://#{s3_bucket_name}/ --exclude '*.*' --include '*.html *.js *.css'")
-  puts "--> syncing everything else..."
-  ok_failed system("s3cmd sync --acl-public --reduced-redundancy --cf-invalidate public/* s3://#{s3_bucket_name}/ --exclude '*.html *.js *.css'")
-  # ok_failed system("s3cmd sync --acl-public --reduced-redundancy public/* s3://#{s3_bucket_name}/")
-  puts "done."
-end
-
 desc "Deploy website to s3/cloudfront via aws-sdk"
-task :cloudfront => [:generate, :minify_html, :gzip] do
+task :s3_cloudfront => [:generate, :minify_html, :gzip] do
   puts "=================================================="
   puts "      Deploying to Amazon S3 & CloudFront"
-  puts "           S3 Bucket:   #{s3_bucket_name}"
-  puts "     Cloudfront Dist:   #{cf_dist_id}"
   puts "=================================================="
 
-  if s3_bucket_name.empty?
-    raise "ERROR: Cannot deploy to S3 because bucket name is nil. Did you setup _config.yml?" 
-  end
+  # setup the aws_deploy_tools object
+  config = YAML::load( File.open("_config.yml"))
+  aws_deploy = AWSDeployTools.new(config)
 
-  if cf_dist_id.empty?
-    puts "WARNING: ClodFront Dist ID is nil (check _config.yml). Skipping CloudFront cache update..."
-  end
+  # get all files in the public directory
+  all_files = Dir.glob("#{public_dir}/**/*.*")
 
-  all_files = Dir.glob("public/**/*.*")
-  files_to_push = []
+  # we do gzipped files seperately since they have different metadata (:content_encoding => gzip)
+  puts "--> syncing gzipped files...".yellow
+  gzipped_files = Dir.glob("#{public_dir}/**/*.html") + Dir.glob("#{public_dir}/**/*.css") + Dir.glob("#{public_dir}/**/*.js")
+  gzipped_keys = gzipped_files.collect {|f| f.split("#{public_dir}/")[1]}
 
-  puts "--> checking which files are out of sync...".yellow
-
-  all_files.each do |fname|
-    # on s3, the file paths shouldn't have 'public/' in them
-    s3_key = fname.split("public/")[1]
-    unless file_is_synced?(s3, s3_bucket_name, s3_key, fname)
-      files_to_push << fname 
-    end
-  end
-
-  if files_to_push.empty?
-    puts "All files are in sync (nothing to do).".green
-    puts "DONE."
-  else
-    puts "--> syncing #{files_to_push.size} file(s)...".yellow
-    
-    bucket = s3.buckets[s3_bucket_name]
-
-    files_to_push.each do |fname|
-      s3_key = fname.split("public/")[1]
-      obj = bucket.objects[s3_key]
-      if (s3_key.include?(".html") || s3_key.include?(".js") || s3_key.include?(".css"))
-        puts "--> pushing #{s3_key}...".green
-        obj.write(File.open(fname, 'r'),
+  aws_deploy.sync(gzipped_keys, gzipped_files,
           :reduced_redundancy => true,
           :cache_control => "max_age=86400", #24 hours
           :content_encoding => 'gzip',
-          :acl => acl
+          :acl => config['acl']
           )
-      else
-        puts "--> pushing #{s3_key}...".green
-        obj.write(File.open(fname, 'r'),
+
+  puts "--> syncing all other files...".yellow
+  non_gzipped_files = all_files - gzipped_files
+  non_gzipped_keys = non_gzipped_files.collect {|f| f.split("#{public_dir}/")[1]}
+
+  aws_deploy.sync(non_gzipped_keys, non_gzipped_files,
           :reduced_redundancy => true,
-          :cache_control => "max_age=14400", #4 hours
-          :acl => acl
+          :cache_control => "max_age=86400", #24 hours
+          :acl => config['acl']
           )
-      end
-    end
-  end
+  
+  # invalidate all the files we just pushed
+  aws_deploy.invalidate_dirty_keys  
 
   puts "DONE."
 
 end
 
+desc "Compress all the content in public/ using gzip"
 task :gzip do
   gzip_all_content
 end
 
+desc "Minify all the html files in public/ using jitify"
 task :minify_html do
   minify_all_html
 end
@@ -556,20 +511,6 @@ def minify_html (fname)
   # remove the .min extension
   system("mv #{fname + '.min'} #{fname}")
 
-end
-
-def file_is_synced? (s3, bucket, key, fname)
-  begin
-    obj = s3.buckets[bucket].objects[key]
-    fcontent = File.open(fname, 'r').read
-    md5(obj.read) == md5(fcontent)
-  rescue
-    return false
-  end
-end
-
-def md5 (input)
-  Digest::MD5.hexdigest(input)
 end
 
 ##
