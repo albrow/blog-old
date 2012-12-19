@@ -1,6 +1,9 @@
 require "rubygems"
 require "bundler/setup"
 require "stringex"
+require "aws-sdk"
+require "digest/md5"
+require "colored"
 
 ## -- Rsync Deploy config -- ##
 # Be sure your public key is listed in your server's ~/.ssh/authorized_keys file
@@ -9,7 +12,12 @@ ssh_port       = "22"
 document_root  = "~/website.com/"
 rsync_delete   = false
 deploy_default = "s3cmd"
-s3_bucket      = "alex-blog-new"
+config = YAML::load( File.open("_config.yml"))
+s3_bucket_name = config['bucket']
+cf_dist_id = config['cloudfront_dist_id']
+acl = config['acl']
+s3 = AWS::S3.new(:access_key_id => config['access_key_id'], 
+                  :secret_access_key => config['secret_access_key']) 
 
 # This will be configured for you when you run config_deploy
 deploy_branch  = "gh-pages"
@@ -221,24 +229,84 @@ task :deploy do
 end
 
 ## copied from http://hypertext.net/2012/09/s3-bucket-octopress
+desc "Deploy website to s3/cloudfront via s3cmd"
 task :s3cmd do
   puts "========================================="
-  puts "Deploying to Amazon S3 [#{s3_bucket}]"
+  puts "Deploying to Amazon S3 [#{s3_bucket_name}]"
   puts "========================================="
   
-  minify_html
+  minify_all_html
   gzip_all_content
 
-  puts "--> syncing html..."
-  ok_failed system("s3cmd sync --acl-public --reduced-redundancy --add-header=Content-Encoding:gzip public/* s3://#{s3_bucket}/ --exclude '*.*' --include '*.html'")
-  puts "--> syncing css..."
-  ok_failed system("s3cmd sync --acl-public --reduced-redundancy --add-header=Content-Encoding:gzip public/* s3://#{s3_bucket}/ --exclude '*.*' --include '*.css'")
-  puts "--> syncing javascript..."
-  ok_failed system("s3cmd sync --acl-public --reduced-redundancy --add-header=Content-Encoding:gzip public/* s3://#{s3_bucket}/ --exclude '*.*' --include '*.js'")
+  puts "--> syncing html js & css..."
+  ok_failed system("s3cmd sync --acl-public --reduced-redundancy --cf-invalidate --add-header=Content-Encoding:gzip public/* s3://#{s3_bucket_name}/ --exclude '*.*' --include '*.html *.js *.css'")
   puts "--> syncing everything else..."
-  ok_failed system("s3cmd sync --acl-public --reduced-redundancy public/* s3://#{s3_bucket}/ --exclude '*.html *.js *.css'")
-  # ok_failed system("s3cmd sync --acl-public --reduced-redundancy public/* s3://#{s3_bucket}/")
+  ok_failed system("s3cmd sync --acl-public --reduced-redundancy --cf-invalidate public/* s3://#{s3_bucket_name}/ --exclude '*.html *.js *.css'")
+  # ok_failed system("s3cmd sync --acl-public --reduced-redundancy public/* s3://#{s3_bucket_name}/")
   puts "done."
+end
+
+desc "Deploy website to s3/cloudfront via aws-sdk"
+task :cloudfront => [:generate, :minify_html, :gzip] do
+  puts "=================================================="
+  puts "      Deploying to Amazon S3 & CloudFront"
+  puts "           S3 Bucket:   #{s3_bucket_name}"
+  puts "     Cloudfront Dist:   #{cf_dist_id}"
+  puts "=================================================="
+
+  if s3_bucket_name.empty?
+    raise "ERROR: Cannot deploy to S3 because bucket name is nil. Did you setup _config.yml?" 
+  end
+
+  if cf_dist_id.empty?
+    puts "WARNING: ClodFront Dist ID is nil (check _config.yml). Skipping CloudFront cache update..."
+  end
+
+  all_files = Dir.glob("public/**/*.*")
+  files_to_push = []
+
+  puts "--> checking which files are out of sync...".yellow
+
+  all_files.each do |fname|
+    # on s3, the file paths shouldn't have 'public/' in them
+    s3_key = fname.split("public/")[1]
+    unless file_is_synced?(s3, s3_bucket_name, s3_key, fname)
+      files_to_push << fname 
+    end
+  end
+
+  if files_to_push.empty?
+    puts "All files are in sync (nothing to do).".green
+    puts "DONE."
+  else
+    puts "--> syncing #{files_to_push.size} file(s)...".yellow
+    
+    bucket = s3.buckets[s3_bucket_name]
+
+    files_to_push.each do |fname|
+      s3_key = fname.split("public/")[1]
+      obj = bucket.objects[s3_key]
+      if (s3_key.include?(".html") || s3_key.include?(".js") || s3_key.include?(".css"))
+        puts "--> pushing #{s3_key}...".green
+        obj.write(File.open(fname, 'r'),
+          :reduced_redundancy => true,
+          :cache_control => "max_age=86400", #24 hours
+          :content_encoding => 'gzip',
+          :acl => acl
+          )
+      else
+        puts "--> pushing #{s3_key}...".green
+        obj.write(File.open(fname, 'r'),
+          :reduced_redundancy => true,
+          :cache_control => "max_age=14400", #4 hours
+          :acl => acl
+          )
+      end
+    end
+  end
+
+  puts "DONE."
+
 end
 
 task :gzip do
@@ -246,7 +314,7 @@ task :gzip do
 end
 
 task :minify_html do
-  minify_html
+  minify_all_html
 end
 
 desc "Generate website and deploy"
@@ -418,60 +486,90 @@ def gzip_all_content
     return
   end
 
-  puts "--> gzipping html..."
+  puts "--> gzipping html...".yellow
   # gzip html...
   html_files = Dir.glob("public/**/*.html")
   html_files.each do |fname|
-    # invoke system gzip
-    system("gzip -n9 #{fname}")
-    # remove the .gz extension
-    system("mv #{fname + '.gz'} #{fname}")
+    gzip_content(fname)
   end
 
-  puts "--> gzipping js..."
+  puts "--> gzipping js...".yellow
   # gzip js...
   html_files = Dir.glob("public/**/*.js")
   html_files.each do |fname|
-    # invoke system gzip
-    system("gzip -n9 #{fname}")
-    # remove the .gz extension
-    system("mv #{fname + '.gz'} #{fname}")
+    gzip_content(fname)
   end
 
-   puts "--> gzipping css..."
+   puts "--> gzipping css...".yellow
   # gzip css...
   html_files = Dir.glob("public/**/*.css")
   html_files.each do |fname|
-    # invoke system gzip
-    system("gzip -n9 #{fname}")
-    # remove the .gz extension
-    system("mv #{fname + '.gz'} #{fname}")
+    gzip_content(fname)
   end
 
   puts "DONE."
 end
 
+def gzip_content (fname)
+  
+  unless which('gzip')
+    puts "WARNING: gzip is not installed on your system. Skipping gzip..."
+    return
+  end
+
+  # invoke system gzip
+  system("gzip -n9 #{fname}")
+  # remove the .gz extension
+  system("mv #{fname + '.gz'} #{fname}")
+
+end
+
 ##
 # attempts to minify all html using jitify
 # if no jitify, skips this step
-def minify_html
+def minify_all_html
   
   unless which('jitify')
     puts "WARNING: jitify is not installed on your system. Skipping minification of html..."
     return
   end
 
-  puts "--> minifying html..."
+  puts "--> minifying html...".yellow
   # gzip html...
   html_files = Dir.glob("public/**/*.html")
   html_files.each do |fname|
-    # invoke system jitify
-    system("jitify --minify #{fname} > #{fname + '.min'}")
-    # remove the .min extension
-    system("mv #{fname + '.min'} #{fname}")
+    minify_html(fname)
   end
   puts "DONE."
 
+end
+
+def minify_html (fname)
+
+  unless which('jitify')
+    puts "WARNING: jitify is not installed on your system. Skipping minification of html..."
+    return
+  end
+
+  # invoke system jitify
+  system("jitify --minify #{fname} > #{fname + '.min'}")
+  # remove the .min extension
+  system("mv #{fname + '.min'} #{fname}")
+
+end
+
+def file_is_synced? (s3, bucket, key, fname)
+  begin
+    obj = s3.buckets[bucket].objects[key]
+    fcontent = File.open(fname, 'r').read
+    md5(obj.read) == md5(fcontent)
+  rescue
+    return false
+  end
+end
+
+def md5 (input)
+  Digest::MD5.hexdigest(input)
 end
 
 ##
