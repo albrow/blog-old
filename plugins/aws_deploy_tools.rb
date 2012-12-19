@@ -130,6 +130,11 @@ class AWSDeployTools
 	# based heavily on https://gist.github.com/601408
 	def invalidate(s3_keys)
 
+		if @cf_distribution_id.nil?
+	    puts "WARNING: cf_distribution_id is nil. (you can include it with :cf_distribution_id => 'id')\n--> skipping cf invalidations..."
+	    return
+	  end
+
 		if s3_keys.nil? || s3_keys.empty?
 			puts "nothing to invalidate."
 			return
@@ -180,6 +185,12 @@ class AWSDeployTools
 
 	# invalidates all the dirty keys and marks them as clean
 	def invalidate_dirty_keys
+
+		if @cf_distribution_id.nil?
+	    puts "WARNING: cf_distribution_id is nil. (you can include it with :cf_distribution_id => 'id')\n--> skipping cf invalidations..."
+	    return
+	  end
+
 		res_code = invalidate(@dirty_keys.to_a)
 		# mark the keys as clean iff the invalidation request went through
 		@dirty_keys.clear if res_code == '201'

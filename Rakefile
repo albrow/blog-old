@@ -16,7 +16,7 @@ deploy_branch  = "gh-pages"
 
 ## -- Misc Configs -- ##
 
-public_dir      = "public"    # compiled site directory
+$public_dir      = "public"    # compiled site directory
 source_dir      = "source"    # source file directory
 blog_index_dir  = 'source'    # directory for your blog's index page (if you put your index in source/blog/index.html, set this to 'source/blog')
 deploy_dir      = "_deploy"   # deploy directory (for Github pages deployment)
@@ -41,7 +41,7 @@ task :install, :theme do |t, args|
   mkdir_p "sass"
   cp_r "#{themes_dir}/#{theme}/sass/.", "sass"
   mkdir_p "#{source_dir}/#{posts_dir}"
-  mkdir_p public_dir
+  mkdir_p $public_dir
 end
 
 #######################
@@ -216,12 +216,12 @@ task :deploy do
     Rake::Task[:generate].execute
   end
 
-  Rake::Task[:copydot].invoke(source_dir, public_dir)
-  Rake::Task["#{deploy_default}"].execute
+  Rake::Task[:copydot].invoke(source_dir, $public_dir)
+  Rake::Task["#{deploy_default}"].invoke
 end
 
 desc "Deploy website to s3/cloudfront via aws-sdk"
-task :s3_cloudfront => [:generate, :minify_html, :gzip] do
+task :s3_cloudfront => [:generate, :minify, :gzip] do
   puts "=================================================="
   puts "      Deploying to Amazon S3 & CloudFront"
   puts "=================================================="
@@ -231,12 +231,13 @@ task :s3_cloudfront => [:generate, :minify_html, :gzip] do
   aws_deploy = AWSDeployTools.new(config)
 
   # get all files in the public directory
-  all_files = Dir.glob("#{public_dir}/**/*.*")
+  all_files = Dir.glob("#{$public_dir}/**/*.*")
+  excluded_files = Dir.glob("#{$public_dir}/**/*.html") + Dir.glob("#{$public_dir}/**/*.css") + Dir.glob("#{$public_dir}/**/*.js")
 
   # we do gzipped files seperately since they have different metadata (:content_encoding => gzip)
   puts "--> syncing gzipped files...".yellow
-  gzipped_files = Dir.glob("#{public_dir}/**/*.html") + Dir.glob("#{public_dir}/**/*.css") + Dir.glob("#{public_dir}/**/*.js")
-  gzipped_keys = gzipped_files.collect {|f| f.split("#{public_dir}/")[1]}
+  gzipped_files = Dir.glob("#{$public_dir}/**/*.gz")
+  gzipped_keys = gzipped_files.collect {|f| (f.split("#{$public_dir}/")[1]).sub(".gz", "")}
 
   aws_deploy.sync(gzipped_keys, gzipped_files,
           :reduced_redundancy => true,
@@ -246,8 +247,8 @@ task :s3_cloudfront => [:generate, :minify_html, :gzip] do
           )
 
   puts "--> syncing all other files...".yellow
-  non_gzipped_files = all_files - gzipped_files
-  non_gzipped_keys = non_gzipped_files.collect {|f| f.split("#{public_dir}/")[1]}
+  non_gzipped_files = all_files - gzipped_files - excluded_files
+  non_gzipped_keys = non_gzipped_files.collect {|f| f.split("#{$public_dir}/")[1]}
 
   aws_deploy.sync(non_gzipped_keys, non_gzipped_files,
           :reduced_redundancy => true,
@@ -268,8 +269,8 @@ task :gzip do
 end
 
 desc "Minify all the html files in public/ using jitify"
-task :minify_html do
-  minify_all_html
+task :minify do
+  minify_all_content
 end
 
 desc "Generate website and deploy"
@@ -290,16 +291,16 @@ task :rsync do
     exclude = "--exclude-from '#{File.expand_path('./rsync-exclude')}'"
   end
   puts "## Deploying website via Rsync"
-  ok_failed system("rsync -avze 'ssh -p #{ssh_port}' #{exclude} #{"--delete" unless rsync_delete == false} #{public_dir}/ #{ssh_user}:#{document_root}")
+  ok_failed system("rsync -avze 'ssh -p #{ssh_port}' #{exclude} #{"--delete" unless rsync_delete == false} #{$public_dir}/ #{ssh_user}:#{document_root}")
 end
 
 desc "deploy public directory to github pages"
 multitask :push do
   puts "## Deploying branch to Github Pages "
   (Dir["#{deploy_dir}/*"]).each { |f| rm_rf(f) }
-  Rake::Task[:copydot].invoke(public_dir, deploy_dir)
-  puts "\n## copying #{public_dir} to #{deploy_dir}"
-  cp_r "#{public_dir}/.", deploy_dir
+  Rake::Task[:copydot].invoke($public_dir, deploy_dir)
+  puts "\n## copying #{$public_dir} to #{deploy_dir}"
+  cp_r "#{$public_dir}/.", deploy_dir
   cd "#{deploy_dir}" do
     system "git add ."
     system "git add -u"
@@ -322,7 +323,7 @@ task :set_root_dir, :dir do |t, args|
       dir = "/" + args.dir.sub(/(\/*)(.+)/, "\\2").sub(/\/$/, '');
     end
     rakefile = IO.read(__FILE__)
-    rakefile.sub!(/public_dir(\s*)=(\s*)(["'])[\w\-\/]*["']/, "public_dir\\1=\\2\\3public#{dir}\\3")
+    rakefile.sub!(/$public_dir(\s*)=(\s*)(["'])[\w\-\/]*["']/, "$public_dir\\1=\\2\\3public#{dir}\\3")
     File.open(__FILE__, 'w') do |f|
       f.write rakefile
     end
@@ -341,8 +342,8 @@ task :set_root_dir, :dir do |t, args|
     File.open('_config.yml', 'w') do |f|
       f.write jekyll_config
     end
-    rm_rf public_dir
-    mkdir_p "#{public_dir}#{dir}"
+    rm_rf $public_dir
+    mkdir_p "#{$public_dir}#{dir}"
     puts "## Site's root directory is now '/#{dir.sub(/^\//, '')}' ##"
   end
 end
@@ -372,7 +373,7 @@ task :setup_github_pages, :repo do |t, args|
       system "git branch -m master source"
       puts "Master branch renamed to 'source' for committing your blog source files"
     else
-      unless !public_dir.match("#{project}").nil?
+      unless !$public_dir.match("#{project}").nil?
         system "rake set_root_dir[#{project}]"
       end
     end
@@ -443,29 +444,32 @@ def gzip_all_content
 
   puts "--> gzipping html...".yellow
   # gzip html...
-  html_files = Dir.glob("public/**/*.html")
+  html_files = Dir.glob("#{$public_dir}/**/*.html")
   html_files.each do |fname|
-    gzip_content(fname)
+    gzip(fname)
   end
 
   puts "--> gzipping js...".yellow
   # gzip js...
-  html_files = Dir.glob("public/**/*.js")
+  html_files = Dir.glob("#{$public_dir}/**/*.js")
   html_files.each do |fname|
-    gzip_content(fname)
+    gzip(fname)
   end
 
    puts "--> gzipping css...".yellow
   # gzip css...
-  html_files = Dir.glob("public/**/*.css")
+  html_files = Dir.glob("#{$public_dir}/**/*.css")
   html_files.each do |fname|
-    gzip_content(fname)
+    gzip(fname)
   end
 
   puts "DONE."
 end
 
-def gzip_content (fname)
+# takes a file object or the path to a file
+# returns a gzipped version of the file
+# e.g. the output extension is .html.gz
+def gzip (fname)
   
   unless which('gzip')
     puts "WARNING: gzip is not installed on your system. Skipping gzip..."
@@ -473,43 +477,76 @@ def gzip_content (fname)
   end
 
   # invoke system gzip
-  system("gzip -n9 #{fname}")
-  # remove the .gz extension
-  system("mv #{fname + '.gz'} #{fname}")
+  system("gzip -c9 #{fname} > #{fname + '.gz'}")
 
 end
 
 ##
 # attempts to minify all html using jitify
 # if no jitify, skips this step
-def minify_all_html
+def minify_all_content
   
   unless which('jitify')
-    puts "WARNING: jitify is not installed on your system. Skipping minification of html..."
+    puts "WARNING: jitify is not installed on your system. Skipping minification..."
     return
   end
 
   puts "--> minifying html...".yellow
-  # gzip html...
-  html_files = Dir.glob("public/**/*.html")
-  html_files.each do |fname|
-    minify_html(fname)
+  # minify html...
+  html_files = Dir.glob("#{$public_dir}/**/*.html")
+  html_files.each do |f|
+    minify(f)
   end
+
+  puts "--> minifying js...".yellow
+  # minify js...
+  html_files = Dir.glob("#{$public_dir}/**/*.js")
+  html_files.each do |f|
+    minify(f)
+  end
+
+  # skipping for now, since css is already minimized by compass
+  # puts "--> minifying css...".yellow
+  # # minify css...
+  # html_files = Dir.glob("#{$public_dir}/**/*.css")
+  # html_files.each do |f|
+  #   minify(f)
+  # end
+
   puts "DONE."
 
 end
 
-def minify_html (fname)
+# takes a file object or the path to a file
+# returns a minified version of the file
+# html, css, and js supported only
+def minify (file)
 
   unless which('jitify')
-    puts "WARNING: jitify is not installed on your system. Skipping minification of html..."
+    puts "WARNING: jitify is not installed on your system. Skipping minification..."
     return
   end
 
+  if file.is_a? File
+    file = file.path
+  end
+
   # invoke system jitify
-  system("jitify --minify #{fname} > #{fname + '.min'}")
+  system("jitify --minify #{file} > #{file + '.min'}")
   # remove the .min extension
-  system("mv #{fname + '.min'} #{fname}")
+  system("mv #{file + '.min'} #{file}")
+
+end
+
+# returns the extension of a file
+# accepts either a file object or a string path
+def get_ext (file)
+  
+  if file.is_a? String
+    return File.extname(file)
+  elsif file.is_a? File
+    return File.extname(file.path)
+  end
 
 end
 
