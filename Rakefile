@@ -16,9 +16,9 @@ deploy_branch  = "gh-pages"
 
 ## -- Misc Configs -- ##
 
-$public_dir      = "public"    # compiled site directory
+$public_dir     = "public"    # compiled site directory
 source_dir      = "source"    # source file directory
-blog_index_dir  = 'source'    # directory for your blog's index page (if you put your index in source/blog/index.html, set this to 'source/blog')
+blog_index_dir  = "source"    # directory for your blog's index page (if you put your index in source/blog/index.html, set this to 'source/blog')
 deploy_dir      = "_deploy"   # deploy directory (for Github pages deployment)
 stash_dir       = "_stash"    # directory to stash posts for speedy generation
 posts_dir       = "_posts"    # directory for blog files
@@ -26,6 +26,16 @@ themes_dir      = ".themes"   # directory for blog files
 new_post_ext    = "markdown"  # default new post file extension when using the new_post task
 new_page_ext    = "markdown"  # default new page file extension when using the new_page task
 server_port     = "4000"      # port for preview server eg. localhost:4000
+
+## -- Gzipping and Minifying -- ##
+
+# file extensions which should be gzipped on deploy...
+$gzip_exts = ["html", "css", "js", "eot", "svg", "ttf"]
+# note: woff does not need to be gzipped because it's already a compressed format
+
+# file extensions which should be minified on deploy...
+$minify_exts = []
+# I opted not to minify since there are important licenses in the comments
 
 
 desc "Initial setup for Octopress: copies the default theme into the path of Jekyll's generator. Rake install defaults to rake install[classic] to install a different theme run rake install[some_theme_name]"
@@ -232,7 +242,13 @@ task :s3_cloudfront => [:generate, :minify, :gzip] do
 
   # get all files in the public directory
   all_files = Dir.glob("#{$public_dir}/**/*.*")
-  excluded_files = Dir.glob("#{$public_dir}/**/*.html") + Dir.glob("#{$public_dir}/**/*.css") + Dir.glob("#{$public_dir}/**/*.js")
+
+  # we want the gzipped version of the files, not the regular (non-gzipped) version
+  # excluded files contains all the regular versions, which will not be deployed
+  excluded_files = []
+  $gzip_exts.collect do |ext|
+    excluded_files += Dir.glob("#{$public_dir}/**/*.#{ext}")
+  end
 
   # we do gzipped files seperately since they have different metadata (:content_encoding => gzip)
   puts "--> syncing gzipped files...".yellow
@@ -433,8 +449,8 @@ task :list do
 end
 
 ##
-# attempts to gzip all html, js, and css
-# if no gzip, skips this step
+# attempts to gzip all the files with extensions specified by $gzip_exts
+# if no system gzip is installed, skips this step
 def gzip_all_content
 
   unless which('gzip')
@@ -442,25 +458,12 @@ def gzip_all_content
     return
   end
 
-  puts "--> gzipping html...".yellow
-  # gzip html...
-  html_files = Dir.glob("#{$public_dir}/**/*.html")
-  html_files.each do |fname|
-    gzip(fname)
-  end
-
-  puts "--> gzipping js...".yellow
-  # gzip js...
-  html_files = Dir.glob("#{$public_dir}/**/*.js")
-  html_files.each do |fname|
-    gzip(fname)
-  end
-
-   puts "--> gzipping css...".yellow
-  # gzip css...
-  html_files = Dir.glob("#{$public_dir}/**/*.css")
-  html_files.each do |fname|
-    gzip(fname)
+  $gzip_exts.each do |ext|
+    puts "--> gzipping #{ext}...".yellow
+    files = Dir.glob("#{$public_dir}/**/*.#{ext}")
+    files.each do |f|
+      gzip(f)
+    end
   end
 
   puts "DONE."
@@ -469,15 +472,19 @@ end
 # takes a file object or the path to a file
 # returns a gzipped version of the file
 # e.g. the output extension is .html.gz
-def gzip (fname)
+def gzip (file)
   
   unless which('gzip')
     puts "WARNING: gzip is not installed on your system. Skipping gzip..."
     return
   end
 
+  if file.is_a? File
+    file = file.path
+  end
+
   # invoke system gzip
-  system("gzip -c9 #{fname} > #{fname + '.gz'}")
+  system("gzip -cn9 #{file} > #{file + '.gz'}")
 
 end
 
@@ -491,27 +498,13 @@ def minify_all_content
     return
   end
 
-  puts "--> minifying html...".yellow
-  # minify html...
-  html_files = Dir.glob("#{$public_dir}/**/*.html")
-  html_files.each do |f|
-    minify(f)
+  $minify_exts.each do |ext|
+    puts "--> minifying #{ext}...".yellow
+    files = Dir.glob("#{$public_dir}/**/*.#{ext}")
+    files.each do |f|
+      minify(f)
+    end
   end
-
-  puts "--> minifying js...".yellow
-  # minify js...
-  html_files = Dir.glob("#{$public_dir}/**/*.js")
-  html_files.each do |f|
-    minify(f)
-  end
-
-  # skipping for now, since css is already minimized by compass
-  # puts "--> minifying css...".yellow
-  # # minify css...
-  # html_files = Dir.glob("#{$public_dir}/**/*.css")
-  # html_files.each do |f|
-  #   minify(f)
-  # end
 
   puts "DONE."
 
