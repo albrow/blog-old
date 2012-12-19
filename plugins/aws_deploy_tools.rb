@@ -129,8 +129,11 @@ class AWSDeployTools
 	# invalidates files (accepts an array of keys or a single key)
 	# based heavily on https://gist.github.com/601408
 	def invalidate(s3_keys)
-		
-		if s3_keys.is_a? String
+
+		if s3_keys.nil? || s3_keys.empty?
+			puts "nothing to invalidate."
+			return
+		elsif s3_keys.is_a? String
 			puts "--> invalidating #{s3_keys}...".yellow
 			paths = '<Path>/' + s3_keys + '</Path>'
 		elsif s3_keys.length > 0
