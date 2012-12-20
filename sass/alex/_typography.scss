@@ -9,15 +9,15 @@ $type-border: $light-grey;
 
 $blockquote: $type-border;
 
-@font-face {
-  font-family: "Yanone Kaffeesatz";
-  src: font-url('yanonekaffeesatz-regular-webfont.eot');
-  src: local('Yanone Kaffeesatz'), 
-  	url('/fonts/yanonekaffeesatz-regular-webfont.eot?#iefix') format("embedded-opentype"),
-  	url('/fonts/yanonekaffeesatz-regular-webfont.woff') format("woff"),
-  	url('/fonts/yanonekaffeesatz-regular-webfont.ttf') format("truetype"),
-  	url('/fonts/yanonekaffeesatz-regular-webfont.svg#MerriweatherRegular') format("svg");
-}
+// @font-face {
+//   font-family: "Yanone Kaffeesatz";
+//   src: font-url('yanonekaffeesatz-regular-webfont.eot');
+//   src: local('Yanone Kaffeesatz'), 
+//   	url('/fonts/yanonekaffeesatz-regular-webfont.eot?#iefix') format("embedded-opentype"),
+//   	url('/fonts/yanonekaffeesatz-regular-webfont.woff') format("woff"),
+//   	url('/fonts/yanonekaffeesatz-regular-webfont.ttf') format("truetype"),
+//   	url('/fonts/yanonekaffeesatz-regular-webfont.svg#MerriweatherRegular') format("svg");
+// }
 
 ::selection {
 	background: lighten(desaturate($blue, 70%), 50%);	
@@ -79,13 +79,6 @@ h5 {
 	color: $light-grey;
 	text-shadow: 0px 0px 1px darken($light-grey, 10%),
 								0px -1px 0px $white;
-}
-
-// not sure why this bug is occuring,
-// but the following line fixes strong
-// tags not being bold
-strong {
-	font-weight: 900 !important;
 }
 
 blockquote {
