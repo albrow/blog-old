@@ -2,6 +2,7 @@ require "rubygems"
 require "bundler/setup"
 require "stringex"
 require "./plugins/aws_deploy_tools"
+require "./plugins/red_dragonfly"
 
 ## -- Rsync Deploy config -- ##
 # Be sure your public key is listed in your server's ~/.ssh/authorized_keys file
@@ -13,6 +14,21 @@ deploy_default = "s3_cloudfront"
 
 # This will be configured for you when you run config_deploy
 deploy_branch  = "gh-pages"
+
+
+## -- Compressing and Minifying -- ##
+
+# file extensions which should be gzipped on deploy...
+$gzip_exts = ["html", "css", "js", "eot", "svg", "ttf"]
+$gzip_dir = "public"
+
+# file extensions which you want minified on deploy...
+$minify_exts = []
+$minify_dir = "public"
+
+# image file extensions which should be shrunk and/or compressed
+$compress_img_exts = ["jpeg", "jpg", "png", "tiff", "tif", "gif", "raw", "bmp"]
+$compress_img_dir  = "public/images/posts"
 
 ## -- Misc Configs -- ##
 
@@ -26,16 +42,6 @@ themes_dir      = ".themes"   # directory for blog files
 new_post_ext    = "markdown"  # default new post file extension when using the new_post task
 new_page_ext    = "markdown"  # default new page file extension when using the new_page task
 server_port     = "4000"      # port for preview server eg. localhost:4000
-
-## -- Gzipping and Minifying -- ##
-
-# file extensions which should be gzipped on deploy...
-$gzip_exts = ["html", "css", "js", "eot", "svg", "ttf"]
-# note: woff does not need to be gzipped because it's already a compressed format
-
-# file extensions which should be minified on deploy...
-$minify_exts = []
-# I opted not to minify since there are important licenses in the comments
 
 
 desc "Initial setup for Octopress: copies the default theme into the path of Jekyll's generator. Rake install defaults to rake install[classic] to install a different theme run rake install[some_theme_name]"
@@ -231,7 +237,7 @@ task :deploy do
 end
 
 desc "Deploy website to s3/cloudfront via aws-sdk"
-task :s3_cloudfront => [:generate, :minify, :gzip] do
+task :s3_cloudfront => [:generate, :minify, :gzip, :compress_images] do
   puts "=================================================="
   puts "      Deploying to Amazon S3 & CloudFront"
   puts "=================================================="
@@ -279,14 +285,69 @@ task :s3_cloudfront => [:generate, :minify, :gzip] do
 
 end
 
-desc "Compress all the content in public/ using gzip"
+desc "Compress all applicable content in public/ using gzip"
 task :gzip do
-  gzip_all_content
+
+  unless which('gzip')
+    puts "WARNING: gzip is not installed on your system. Skipping gzip..."
+    return
+  end
+
+  @compressor ||= RedDragonfly.new
+
+  $gzip_exts.each do |ext|
+    puts "--> gzipping all #{ext}...".yellow
+    files = Dir.glob("#{$gzip_dir}/**/*.#{ext}")
+    files.each do |f|
+      @compressor.gzip(f)
+    end
+  end
+
+  puts "DONE."
 end
 
-desc "Minify all the html files in public/ using jitify"
+desc "Minify all applicable files in public/ using jitify"
 task :minify do
-  minify_all_content
+  
+  unless which('jitify')
+    puts "WARNING: jitify is not installed on your system. Skipping minification..."
+    return
+  end
+
+  @compressor ||= RedDragonfly.new
+
+  $minify_exts.each do |ext|
+    puts "--> minifying all #{ext}...".yellow
+    files = Dir.glob("#{$minify_dir}/**/*.#{ext}")
+    files.each do |f|
+      @compressor.minify(f)
+    end
+  end
+
+  puts "DONE."
+
+end
+
+desc "Compress all images in public/ using ImageMagick"
+task :compress_images do
+
+  unless which('convert')
+    puts "WARNING: ImageMagick is not installed on your system. Skipping image compression..."
+    return
+  end
+
+  @compressor ||= RedDragonfly.new
+
+  $compress_img_exts.each do |ext|
+    puts "--> compressing all #{ext}...".yellow
+    files = Dir.glob("#{$compress_img_dir}/**/*.#{ext}")
+    files.each do |f|
+      @compressor.compress_img(f)
+    end
+  end
+
+  puts "DONE."
+
 end
 
 desc "Generate website and deploy"
@@ -446,101 +507,6 @@ desc "list tasks"
 task :list do
   puts "Tasks: #{(Rake::Task.tasks - [Rake::Task[:list]]).join(', ')}"
   puts "(type rake -T for more detail)\n\n"
-end
-
-##
-# attempts to gzip all the files with extensions specified by $gzip_exts
-# if no system gzip is installed, skips this step
-def gzip_all_content
-
-  unless which('gzip')
-    puts "WARNING: gzip is not installed on your system. Skipping gzip..."
-    return
-  end
-
-  $gzip_exts.each do |ext|
-    puts "--> gzipping #{ext}...".yellow
-    files = Dir.glob("#{$public_dir}/**/*.#{ext}")
-    files.each do |f|
-      gzip(f)
-    end
-  end
-
-  puts "DONE."
-end
-
-# takes a file object or the path to a file
-# returns a gzipped version of the file
-# e.g. the output extension is .html.gz
-def gzip (file)
-  
-  unless which('gzip')
-    puts "WARNING: gzip is not installed on your system. Skipping gzip..."
-    return
-  end
-
-  if file.is_a? File
-    file = file.path
-  end
-
-  # invoke system gzip
-  system("gzip -cn9 #{file} > #{file + '.gz'}")
-
-end
-
-##
-# attempts to minify all html using jitify
-# if no jitify, skips this step
-def minify_all_content
-  
-  unless which('jitify')
-    puts "WARNING: jitify is not installed on your system. Skipping minification..."
-    return
-  end
-
-  $minify_exts.each do |ext|
-    puts "--> minifying #{ext}...".yellow
-    files = Dir.glob("#{$public_dir}/**/*.#{ext}")
-    files.each do |f|
-      minify(f)
-    end
-  end
-
-  puts "DONE."
-
-end
-
-# takes a file object or the path to a file
-# returns a minified version of the file
-# html, css, and js supported only
-def minify (file)
-
-  unless which('jitify')
-    puts "WARNING: jitify is not installed on your system. Skipping minification..."
-    return
-  end
-
-  if file.is_a? File
-    file = file.path
-  end
-
-  # invoke system jitify
-  system("jitify --minify #{file} > #{file + '.min'}")
-  # remove the .min extension
-  system("mv #{file + '.min'} #{file}")
-
-end
-
-# returns the extension of a file
-# accepts either a file object or a string path
-def get_ext (file)
-  
-  if file.is_a? String
-    return File.extname(file)
-  elsif file.is_a? File
-    return File.extname(file.path)
-  end
-
 end
 
 ##
