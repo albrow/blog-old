@@ -18,6 +18,11 @@ a {
 	&:hover, &:active {
 		color: darken($blue, 14%);
 	}
+	// button press effect
+	&:active {
+		position: relative;
+  	top: 1px;
+	}
 }
 
 .padding {
@@ -80,7 +85,7 @@ input:not(.btn), textarea, select, .uneditable-input {
 }
 
 .sidebar-footer {
-	padding: 20px;
+	padding: 20px 0px 20px 20px;
 	font-size: 13px;
 }
 

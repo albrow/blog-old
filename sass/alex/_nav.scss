@@ -1,7 +1,9 @@
 ul.nav {
 	list-style: none;
 	margin-left: 0;
+	margin-right: 0;
 	padding-left: 0;
+	font-size: 15px;
 	>li {
 		width: 100%;
 		a {
@@ -23,6 +25,11 @@ ul.nav {
 				color: darken($blue, 14%);
 				padding-left: 24px;
 			}
+		}
+		// undo button press effect
+		a:active {
+			position: default;
+	  	top: 0px;
 		}
 	}
 	>li.active, >li.active:hover {
@@ -48,6 +55,11 @@ ul.nav {
 				margin-bottom: 2px;
 				left: -14px;
 			}
+		}
+		// undo button press effect
+		a:active {
+			position: default;
+	  	top: 0px;
 		}
 	}
 }
