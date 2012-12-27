@@ -181,7 +181,7 @@ class AWSDeployTools
 		res = http.request(req)
 		
 		if res.code == '201'
-			puts "Cloudfront Invalidation Success [201]".green
+			puts "Cloudfront Invalidation Success [201]. It may take a few minutes for the new files to propagate.".green
 		else
 			puts ("Cloudfront Invalidation Error: \n" + res.body).red
 		end
