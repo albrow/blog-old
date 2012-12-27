@@ -21,14 +21,15 @@ Before
 - Images hosted on CloudFront
 - No image compression or gzipping
 
-Before I made the switch, my blog was a Ruby on Rails app hosted on
+Before I made the switch, my blog was a small Ruby on Rails app hosted on
 Heroku. I was using [Unicorn](https://github.com/defunkt/unicorn) as
-a server, which allows you to run multiple server processes on a single
+a server, which meant I could run multiple server processes on a single
 Heroku dyno. After some tweaking, I determined that 6 running processes
 was the sweet spot. I was also using [Memcached](http://memcached.org/)
 and the [Dalli gem](https://github.com/mperham/dalli) for in-memory caching.
 Because my pockets were (and are) empty, I was on the free 5MB teir add-on
-from Heroku. I was also hosting images on CloudFront, but nothing else.
+from Heroku. I was also hosting images on CloudFront, but nothing else. This
+costed me only pennies a month.
 
 Before I go any further, I want to emphasize that this setup *was
 performing great*. I wasn't noticing any serious performance
@@ -48,10 +49,11 @@ or at least dirt cheap. I decided to give [Jekyll](https://github.com/mojombo/je
 a try. Jekyll is a static site generator written in Ruby and specifically
 designed for blogs. The basic idea is that instead of having a backend
 framework and a database, you can convert everything in your blog to
-plain old html files (like the olden days. Because Jekyll is so bare bones,
+plain old html files (like the olden days). Because Jekyll is so bare bones,
 I decided to use [Octopress](http://octopress.org/), a blogging platform
 built on Jekyll that powers Github Pages. (I ended up trimming **a lot**
-of fat from it, saving only the pieces I needed).
+of fat from it, saving only the pieces I needed). I expect that this will
+still only cost pennies a month.
 
 To squeeze every last bit of performance out of my blog, I made some other
 important changes. First, I gzipped all the html, css, js, and fonts. Next, I
@@ -79,7 +81,7 @@ I used three different tools to test my new blog setup.
 - [Which Loads Faster](http://whichloadsfaster.com/)
 - [Pingdom Full Page Tester](http://tools.pingdom.com/fpt/)
 
-For each tool, I used three different pages: the homepage, a post with one picture,
+For each tool, I tested three different pages: the homepage, a post with one picture,
 and a post with no pictures. I always tested the most direct domain name possible,
 i.e. instead of *blog.alexbrowne.info* I used *d1koatif4i39jr.cloudfront.net*.
 [All of the data from these benchmarks](https://docs.google.com/spreadsheet/ccc?key=0AsmDpu3Djd_vdFdzNmhoelRCcjFtZlFWYWpoQUZNRHc)
@@ -98,8 +100,7 @@ page simultaneously. Since ab runs on your own computer, **it can be limited
 by your hardware and/or internet connection**. Also, it is my understanding
 that ab does not load images.
 
-I ran tests on 3 different pages: the homepage, a post with 1 picture, and
-a post with no pictures. For each of the pages, I ran 9 different tests with
+For each of the three pages, I ran 9 different tests with
 1,000 requests and different levels of concurrency ranging from 1 to 1,000.
 The tenth test (the "stress test") was 10,000 requests at a concurrency level
 of 1,000.
@@ -108,7 +109,7 @@ of 1,000.
 		
 		<tr>
 			<th colspan="4" style="font-size: 18px">
-				Dynamic Site as tested by Apache Benchmark
+				Dynamic Site tested by Apache Benchmark
 			</th>
 		</tr>
 
@@ -195,7 +196,7 @@ of 1,000.
 		
 		<tr>
 			<th colspan="4" style="font-size: 18px">
-				Static Site as tested Apache Benchmark
+				Static Site tested by Apache Benchmark
 			</th>
 		</tr>
 
@@ -278,7 +279,9 @@ of 1,000.
 
 </table>
 
-**TODO: insert chart/graph**
+Note the logarithmic scale on the folowing line chart...
+
+{% img /images/posts/ab-benchmark-chart.jpg %}
 
 {% pullquote %}
 {" Based on average response time, the static site performed 265% better
@@ -292,9 +295,11 @@ time of only 161 ms! That's more than 500% better than the dynamic site
 performed at the same test.
 
 Another important note is that the dynamic site had an average error rate
-of about 19%, but in all the trials the static site didn't return a single
-error! Already we can see that the new site is performing better and more
-consistently under heavy load.
+of about 19%. The Heroku logs didn't show that anything was awry, so I don't
+know exactly what was causing the errors. On the other hand, in all the
+trials the static site didn't return a single error! Already we can see
+that the new site is performing better and more consistently under heavy
+load.
 {% endpullquote %}
 
 ### Which Loads Faster
@@ -311,7 +316,7 @@ overall averages.
 <table class="table table-bordered table-hover">
 		
 		<tr>
-			<th colspan="4" style="font-size: 18px">
+			<th colspan="3" style="font-size: 18px">
 				Which Loads Faster? (all times in ms)
 			</th>
 		</tr>
@@ -351,32 +356,33 @@ overall averages.
 {% pullquote %}
 
 {" The results show that the static site is performing 221% better than the dynamic one. "}
-It also shows that the entire page is loading on average in a mere 114 ms on my laptop!
-That includes everything– the html, several images, a fairly large stylesheet, and a custom font.
-That's insanely fast! Of course, as we'll see in the next benchmark tool, this has a lot to
-do with my location and internet speed, and you can't necessarily get the same results everywhere.
+It also shows that the entire page is loading on average in a mere 114 ms on my laptop, which
+is insanely fast! Of course, as we'll see in the next benchmark tool, this has a lot to
+do with my location and internet speed, and you can't necessarily get the same results
+everywhere.
 
 It's also worth noting that the server will only respond this fast if you limit it to one
-request at a time (which WhichLoadsFaster does). I also performed these tests in the late hours
-of the night when Amazon probably wasn't seeing much traffic on their U.S. servers.
+request at a time. And the results might have been affected by the fact that I performed
+these tests in the late hours of the night when Amazon probably wasn't seeing much
+traffic on their U.S. servers.
 
 {% endpullquote %}
 
 ### Pingdom Full Page Tester
 
-Unlike the previous tools, this one uses servers in three locations around the world to
-test load times and does not depend on your own hardware or internet connection. The
-three locations are New York, Dallas, and Amsterdam. It also tests only a single request,
-so the results won't reflect what happens when the server is experiencing heavy load. 
+Unlike the previous tools, this one uses servers in three locations around the
+world to and does not depend on your own hardware or internet connection. The three
+locations are New York, Dallas, and Amsterdam. It also tests only a single request at a 
+time, so the results won't reflect what happens when the server is experiencing heavy load. 
 I performed a single page load test five times for each of the three pages (homepage, a post
 with one picture, and a post with no pictures). Below is the matrix of averages. On one
-axis is the average of each location, and on the other axis is the average of each page.
+axis is the average for each location, and on the other axis is the average for each page.
 In the bottom right corner is the overall averages for all locations and all pages.
 
 <table class="table table-bordered table-hover">
 		
 		<tr>
-			<th colspan="4" style="font-size: 18px">
+			<th colspan="5" style="font-size: 18px">
 				Dynamic Site as tested by Pingdom Tools (ms)
 			</th>
 		</tr>
@@ -426,7 +432,7 @@ In the bottom right corner is the overall averages for all locations and all pag
 <table class="table table-bordered table-hover">
 		
 		<tr>
-			<th colspan="4" style="font-size: 18px">
+			<th colspan="5" style="font-size: 18px">
 				Static Site as tested by Pingdom Tools (ms)
 			</th>
 		</tr>
@@ -476,13 +482,13 @@ In the bottom right corner is the overall averages for all locations and all pag
 {% pullquote %}
 {" Based on the average of all three locations and all three pages,
 the static site performed 209% better than the dynamic one. "} What might
-be more interesting though is that this tool showed something that the 
-others didn't. The static site has ***much better*** global performance.
+be more interesting, though, is that this tool showed something that the 
+others didn't: the static site has ***much better*** global performance.
 This is particularly noticeable in Amsterdam, where the average load time
 was only 200 ms, 609% faster than the dynamic site performed at that location.
 
-The Pingdom full page tester also reports how your website compares to their
-database of all other tested websites. While the dynamic site performed around
+The Pingdom full page tester also reports how your website compares to all
+other tested websites in their database. While the dynamic site performed around
 85-90% better than all other websites, the static one performed upwards of 95%
 better. In Amsterdam, my blog performed 98-100% better than all
 other tested sites!
@@ -492,7 +498,9 @@ other tested sites!
 Conclusions
 -----------
 
-If you combine the load time decreases from each of the three benchmark tools,
+{% img /images/posts/all-benchmarks-chart.jpg %}
+
+If you combine the load time averages from each of the three benchmark tools,
 you'll find that the changes I made **increased my blog performance by around
 230%**. It is now 2.3x faster, and it shows. Depending on your internet speed,
 you might not even notice any lag as you switch between pages. I'm really 
@@ -515,8 +523,8 @@ code behind my blog once I get all the kinks worked out and clean it up
 a bit. I will update this post when that happens.
 
 As for the price? Well over the course of testing I probably sent more than
-one million requests to the CloudFront servers and transferred around a GB
-of data. According to the pricing charts, this will cost me only about one
+one million requests to the CloudFront servers and transferred around a gigabyte
+of data. According to the pricing charts, this will cost me a measly single
 dollar. Not bad at all, especially considering that's far more traffic than
 I expect to get in a typical month.
 
@@ -524,7 +532,7 @@ If you're running your own blog and have some programming experience,
 I would strongly recommend you give Jekyll/Octopress a try. You will be
 pleased with the performance, and writing in markdown with liquid tags
 can be quite a pleasure. In no particular order, here's some resources
-I used to get started:
+that I found helpful:
 
 - [Jekyll Repository](https://github.com/mojombo/jekyll)
 - [Jekyll Homepage](http://jekyllrb.com/)
@@ -535,24 +543,9 @@ I used to get started:
 - [Blogging Basics with Octopress](http://octopress.org/docs/blogging/)
 - [List of Jekyll Plugins (including one of my own creation)](https://github.com/mojombo/jekyll/wiki/Plugins)
 
-I hope you like my blog. And if you have any other tips on how I 
-can make it even faster, or any suggestions for other benchmarks
+If you have any other tips on how I 
+can make my blog even faster, or any suggestions for other benchmarks
 I could try, I'd love to hear it!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
