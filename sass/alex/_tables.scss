@@ -132,11 +132,26 @@ table {
   }
 }
 
-@media screen and (max-width: 430px) {
+// prevent the table from being too wide on smaller screens
+@media screen and (max-width: 520px) {
   .table {
     table-layout: fixed;
     @include box-sizing(border-box);
     word-wrap:break-word;
+    font-size: 14px;
+  }
+  th, td {
+    word-wrap:break-word;
+  }
+}
+
+// prevent the table from being too wide on smaller screens
+@media screen and (max-width: 319px) {
+  .table {
+    table-layout: fixed;
+    @include box-sizing(border-box);
+    word-wrap:break-word;
+    font-size: 12px;
   }
   th, td {
     word-wrap:break-word;
