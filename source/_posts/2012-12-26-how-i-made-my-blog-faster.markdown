@@ -50,8 +50,8 @@ a try. Jekyll is a static site generator written in Ruby and specifically
 designed for blogs. The basic idea is that instead of having a backend
 framework and a database, you can convert everything in your blog to
 plain old html files (like the olden days). Because Jekyll is so bare bones,
-I decided to use [Octopress](http://octopress.org/), a blogging platform
-built on Jekyll that powers Github Pages. (I ended up trimming **a lot**
+I also used [Octopress](http://octopress.org/), a blogging platform
+built on top of Jekyll that powers Github Pages. (I ended up trimming **a lot**
 of fat from it, saving only the pieces I needed). I expect that this will
 still only cost pennies a month.
 
@@ -94,11 +94,12 @@ if it works.*
 
 ### Apache Benchmark
 
-Apache Benchmark (ab) is a great tool for load testing. It gives the tester
-a lot of control and is able to spawn multiple user threads that load a web
-page simultaneously. Since ab runs on your own computer, **it can be limited
-by your hardware and/or internet connection**. Also, it is my understanding
-that ab does not load images.
+Apache Benchmark (ab) gives the tester a lot of control and is able to spawn
+multiple user threads that load a web page simultaneously. Each user thread will
+wait until a request is completed before it starts the next one, and it will keep
+sending requests until the test terminates. Since ab runs on your own computer,
+**it can be limited by your hardware and/or internet connection**. Also, it is
+my understanding that ab does not load images.
 
 For each of the three pages, I ran 9 different tests with
 1,000 requests and different levels of concurrency ranging from 1 to 1,000.
@@ -295,8 +296,8 @@ time of only 161 ms! That's more than 500% better than the dynamic site
 performed at the same test.
 
 Another important note is that the dynamic site had an average error rate
-of about 19%. The Heroku logs didn't show that anything was awry, so I don't
-know exactly what was causing the errors. On the other hand, in all the
+of about 19%. The Heroku logs didn't indicate that anything was amiss, so I
+don't know exactly what was causing the errors. On the other hand, in all the
 trials the static site didn't return a single error! Already we can see
 that the new site is performing better and more consistently under heavy
 load.
@@ -307,7 +308,7 @@ load.
 Unlike Apache Benchmark, this tool only does one request at a time. I believe
 it uses your own hardware and internet connection, and it does load everything
 on the page, including images and javascript. Because it loads the whole page,
-this tool does a good job of showing more real-world results. For each trial,
+this tool does a good job of showing more real world results. For each trial,
 I pitted the dynamic site and the static site directly against each other and
 recorded the average of 100 requests. I did three trials (100 requests each)
 for each of the three pages. Below are the averages for each page and the
@@ -363,7 +364,7 @@ everywhere.
 
 It's also worth noting that the server will only respond this fast if you limit it to one
 request at a time. And the results might have been affected by the fact that I performed
-these tests in the late hours of the night when Amazon probably wasn't seeing much
+these tests in the late hours of the night when Amazon wasn't seeing much
 traffic on their U.S. servers.
 
 {% endpullquote %}
@@ -377,13 +378,13 @@ time, so the results won't reflect what happens when the server is experiencing 
 I performed a single page load test five times for each of the three pages (homepage, a post
 with one picture, and a post with no pictures). Below is the matrix of averages. On one
 axis is the average for each location, and on the other axis is the average for each page.
-In the bottom right corner is the overall averages for all locations and all pages.
+In the bottom right corner is the overall average for all locations and all pages.
 
 <table class="table table-bordered table-hover">
 		
 		<tr>
 			<th colspan="5" style="font-size: 18px">
-				Dynamic Site as tested by Pingdom Tools (ms)
+				Dynamic Site tested by Pingdom Tools (ms)
 			</th>
 		</tr>
 
@@ -433,7 +434,7 @@ In the bottom right corner is the overall averages for all locations and all pag
 		
 		<tr>
 			<th colspan="5" style="font-size: 18px">
-				Static Site as tested by Pingdom Tools (ms)
+				Static Site tested by Pingdom Tools (ms)
 			</th>
 		</tr>
 
@@ -486,6 +487,7 @@ be more interesting, though, is that this tool showed something that the
 others didn't: the static site has ***much better*** global performance.
 This is particularly noticeable in Amsterdam, where the average load time
 was only 200 ms, 609% faster than the dynamic site performed at that location.
+(Funny, because you might expect everything to run a little lazier there).
 
 The Pingdom full page tester also reports how your website compares to all
 other tested websites in their database. While the dynamic site performed around
@@ -502,9 +504,9 @@ Conclusions
 
 If you combine the load time averages from each of the three benchmark tools,
 you'll find that the changes I made **increased my blog performance by around
-230%**. It is now 2.3x faster, and it shows. Depending on your internet speed,
-you might not even notice any lag as you switch between pages. I'm really 
-happy with these results.
+230%**. It is now 2.3x faster, and it shows. The exact performance depends on 
+your internet speed, of course, but in my experience I don't notice any lag as
+I navigate between pages. None.
 
 I also learned that **my blog will now perform much better under a heavy load**.
 Apache Benchmark showed that at even at 500 requests per second, it can consistently
