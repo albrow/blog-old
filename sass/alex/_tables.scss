@@ -131,3 +131,14 @@ table {
     .span#{$i} { @include tableColumns($i); }
   }
 }
+
+@media screen and (max-width: 430px) {
+  .table {
+    table-layout: fixed;
+    @include box-sizing(border-box);
+    word-wrap:break-word;
+  }
+  th, td {
+    word-wrap:break-word;
+  }
+}
