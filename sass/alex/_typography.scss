@@ -123,8 +123,8 @@ blockquote {
   /* Baseline correction */
   position: relative;
   top: 7px;
-  font-size: 1.4em;
-  line-height: 1.45em;
+  font-size: 20px;
+  line-height: 26px;
 }
 
 .pullquote-left:before {
@@ -140,4 +140,89 @@ blockquote {
   white-space: -o-pre-wrap;
   white-space: pre-wrap;
   word-wrap: break-word;
+}
+
+// for extra-small screens (old mobile) 
+@media screen and (max-width: 470px) {
+  h1 {
+    font-size: 30px;
+    line-height: 40px;
+  }
+
+  h2 {
+    font-size: 26px;
+    line-height: 34px;
+  }
+
+  h3 {
+    font-size: 22px;
+    line-height: 28px;
+  }
+
+  h4 {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  h5 {
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  .title, .title-abbr {
+    h2 {
+      font-size: 42px;
+      line-height: 50px;
+    }
+  }
+
+  body, p, blockquote, .yano {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  body p {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .pullquote-left:before, .pullquote-right:before {
+    font-size: 17px;
+    line-height: 22px;
+  }
+
+}
+
+// for smaller screens (mostly mobile)
+@media screen and (max-width: 799px) and (min-width: 471px) {
+  h1 {
+    font-size: 38px;
+    line-height: 50px;
+  }
+
+  h2 {
+    font-size: 34px;
+    line-height: 46px;
+  }
+
+  h3 {
+    font-size: 30px;
+    line-height: 40px;
+  }
+
+  h4 {
+    font-size: 26px;
+    line-height: 34px;
+  }
+
+  h5 {
+    font-size: 22px;
+    line-height: 28px;
+  }
+  .title, .title-abbr {
+    h2 {
+      font-size: 42px;
+      line-height: 50px;
+    }
+  }
 }
