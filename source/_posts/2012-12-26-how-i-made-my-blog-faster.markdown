@@ -7,9 +7,8 @@ date: 2012-12-26 22:22
 **tl;dr:**
 I converted my blog to a
 static site using Jekyll/Octopress and am now hosting it on Amazon
-CloudFront. This resulted in approximately a ***230% performance increase***.
-There are tons of benchmarks and charts near the
-bottom of this post.
+CloudFront. It is much faster. There are tons of benchmarks and charts
+near the bottom of this post.
 
 Before
 ------
@@ -285,9 +284,9 @@ Note the logarithmic scale on the folowing line chart...
 {% img /images/posts/ab-benchmark-chart.jpg %}
 
 {% pullquote %}
-{" Based on average response time, the static site performed 265% better
-than the dynamic one. "} The static site was also able to sustain a 266%
-higher request rate and a 139% higher transfer rate.
+{" Based on average response time, the static site performed 2.65x (or 62.3%)
+better than the dynamic one. "} The static site was also able to sustain a 166%
+higher request rate and a 39% higher transfer rate.
 
 The sweet spot for the static site seems to be around a concurrency level
 of 100. At that level, the static site was able to serve an impressive
@@ -356,7 +355,7 @@ overall averages.
 
 {% pullquote %}
 
-{" The results show that the static site is performing 221% better than the dynamic one. "}
+{" The results show that the static site is performing 2.21x (or 54.8%) better than the dynamic one. "}
 It also shows that the entire page is loading on average in a mere 114 ms on my laptop, which
 is insanely fast! Of course, as we'll see in the next benchmark tool, this has a lot to
 do with my location and internet speed, and you can't necessarily get the same results
@@ -482,11 +481,11 @@ In the bottom right corner is the overall average for all locations and all page
 
 {% pullquote %}
 {" Based on the average of all three locations and all three pages,
-the static site performed 209% better than the dynamic one. "} What might
-be more interesting, though, is that this tool showed something that the 
-others didn't: the static site has ***much better*** global performance.
+the static site performed 2.09x (or 52.25%) better than the dynamic one. "}
+What might be more interesting, though, is that this tool showed something 
+that the others didn't: the static site has ***much better*** global performance.
 This is particularly noticeable in Amsterdam, where the average load time
-was only 200 ms, 609% faster than the dynamic site performed at that location.
+was only 200 ms, 6 times faster than the dynamic site performed at that location.
 (Funny, because you might expect everything to run a little lazier there).
 
 The Pingdom full page tester also reports how your website compares to all
@@ -504,7 +503,7 @@ Conclusions
 
 If you combine the load time averages from each of the three benchmark tools,
 you'll find that the changes I made **increased my blog performance by around
-230%**. It is now 2.3x faster, and it shows. The exact performance depends on 
+56.4%**. It is now **2.3x faster**, and it shows. The exact performance depends on 
 your internet speed, of course, but in my experience I don't notice any lag as
 I navigate between pages. None.
 

@@ -18,7 +18,7 @@ couldn't pass up the opportunity to chat intimately with two phenomenal entrepre
 
 My [hometown](http://en.wikipedia.org/wiki/Sneads_Ferry,_North_Carolina)
 has around 2,500 residents. Durham isn't really a big city, and I spend most of my
-time isolated on campus. Even though I visited to New York when I was (much) younger, I forgot a
+time isolated on campus. Even though I visited New York when I was (much) younger, I forgot a
 lot of the details and didn't understand certain things back then anyways. Needless to say, while we were
 hanging out in The Big Apple, I noticed a few things.
 
