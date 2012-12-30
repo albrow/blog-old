@@ -126,8 +126,6 @@ class RedDragonfly
 		  					"-compress #{$img_options[:compress_type]} -quality #{$img_options[:quality]} " + 
 		  					"#{get_raw_filename(fname) + '.' + $img_options[:output_ext]}"
 			
-			puts compress_cmd
-
 		  # invoke system ImageMagick
 		  system(compress_cmd)
 		  # remove the old file (if applicable)

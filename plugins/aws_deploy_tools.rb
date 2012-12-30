@@ -81,8 +81,14 @@ class AWSDeployTools
     obj.write(file, options)
 
     @dirty_keys << s3_key
-    # also add the dir. i.e. for archive/index.html we should also invalidate archive/
-    @dirty_keys << s3_key.chomp(s3_key.split("/").last)
+    # Special cases for index files.
+    # for /index.html we should also invalidate /
+    # for /archive/index.html we should also invalidate /archive/
+    if (s3_key == "index.html")
+			@dirty_keys << "/"
+    elsif File.basename(s3_key) == "index.html"
+			@dirty_keys << s3_key.chomp(s3_key.split("/").last)
+    end
 	  
 	end
 
@@ -194,7 +200,6 @@ class AWSDeployTools
 
 	# invalidates all the dirty keys and marks them as clean
 	def invalidate_dirty_keys
-
 		if @cf_distribution_id.nil?
 	    puts "WARNING: cf_distribution_id is nil. (you can include it with :cf_distribution_id => 'id')\n--> skipping cf invalidations..."
 	    return
