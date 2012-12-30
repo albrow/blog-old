@@ -81,6 +81,8 @@ class AWSDeployTools
     obj.write(file, options)
 
     @dirty_keys << s3_key
+    # also add the dir. i.e. for archive/index.html we should also invalidate archive/
+    @dirty_keys << s3_key.chomp(s3_key.split("/").last)
 	  
 	end
 
