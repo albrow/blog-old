@@ -118,9 +118,15 @@ class RedDragonfly
 
 			fname = get_filename(file)
 
-			compress_cmd = "convert #{fname} -resize #{$img_options[:max_width]}x#{$img_options[:max_height]}\\>" + 
-		  					" -compress #{$img_options[:compress_type]} -quality #{$img_options[:quality]}" + 
-		  					" #{get_raw_filename(fname) + '.' + $img_options[:output_ext]}"
+			compress_cmd = 
+								"convert -strip -interlace Plane " + 
+								# uncomment to enable gaussian blur (smaller files but blurry)
+								#"-gaussian-blur 0.01 " +
+								"#{fname} -resize #{$img_options[:max_width]}x#{$img_options[:max_height]}\\> " + 
+		  					"-compress #{$img_options[:compress_type]} -quality #{$img_options[:quality]} " + 
+		  					"#{get_raw_filename(fname) + '.' + $img_options[:output_ext]}"
+			
+			puts compress_cmd
 
 		  # invoke system ImageMagick
 		  system(compress_cmd)
