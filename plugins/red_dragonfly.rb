@@ -119,9 +119,11 @@ class RedDragonfly
 			fname = get_filename(file)
 
 			compress_cmd = 
-								"convert -strip -interlace Plane " + 
+								"convert -strip " + 
 								# uncomment to enable gaussian blur (smaller files but blurry)
 								#"-gaussian-blur 0.01 " +
+								# uncomment to enable interlacing (progressive compression for jpeg)
+								#"-interlace Plane " +
 								"#{fname} -resize #{$img_options[:max_width]}x#{$img_options[:max_height]}\\> " + 
 		  					"-compress #{$img_options[:compress_type]} -quality #{$img_options[:quality]} " + 
 		  					"#{get_raw_filename(fname) + '.' + $img_options[:output_ext]}"
