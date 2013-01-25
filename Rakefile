@@ -28,7 +28,7 @@ $minify_dir = "public"
 
 # image file extensions which should be shrunk and/or compressed
 $compress_img_exts = ["jpeg", "jpg", "png", "tiff", "tif", "gif", "raw", "bmp"]
-$compress_img_dir  = "public/images/posts"
+$compress_img_dir  = "public/images/real"
 
 ## -- Misc Configs -- ##
 

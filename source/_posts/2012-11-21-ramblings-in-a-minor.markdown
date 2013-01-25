@@ -12,7 +12,7 @@ I find it absolutely astounding that music has the ability to evoke certain emot
 
 ([source](http://en.wikipedia.org/wiki/Ear))
 
-{% img /images/posts/music.jpg %}
+{% img /images/real/music.jpg %}
 
 Music has become an integral part of all of our lives. It is an inherent part of human existence, so much so that one might find it difficult to last a whole day without hearing it– whether on the radio, on television, or even something as simple as a hum or whistle.
 

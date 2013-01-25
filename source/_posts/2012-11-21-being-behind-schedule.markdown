@@ -20,6 +20,6 @@ It ***is*** worth it.
 
 Even as I sit here typing, I can tell that mental exhaustion is preventing me from writing with the eloquence I usually aim for. Before I crash, I'll leave you with a few pictures of the setup I've been using to record videos in my office. There are many more to come!
 
-{% img /images/posts/officecamerasetup2.jpg %}
+{% img /images/real/officecamerasetup2.jpg %}
 
-{% img /images/posts/officecamerasetup3.jpg %}
+{% img /images/real/officecamerasetup3.jpg %}

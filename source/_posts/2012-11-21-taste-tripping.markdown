@@ -8,7 +8,7 @@ categories:
 
 There exists in certain corners of the globe (mostly West Africa) a magical little member of the botanical family known as synsepalum dulcificum, or more commonly “miracle fruit” or “miracle berry.” What’s so miraculous about this fruit is not its taste, but the strange effect it has on the tastes of other foods. Though the effects still aren’t fully understood, scientists have been able to discern that the most active chemical in the fruit, appropriately called miraculin, changes the shape of certain taste buds and alters sweetness receptors in the tongue such that they behave abnormally. The most noticeable effect is that sour and acidic foods taste inexplicably sweet, while all other tastes are subdued.
 
-{% img /images/posts/miracle_berry.jpg %}
+{% img /images/real/miracle_berry.jpg %}
 
 In the 1970’s a U.S. company discovered the miracle berry and attempted to market miraculin as an artificial sweetener. It was very effective, and would have had hugely positive implications for diabetics and dieters. Unfortunately, rumor has it that large sugar companies lobbied against miraculin, which resulted in the FDA declaring it a “food additive.” The stricter regulations and requirements of that classification made it impossible for the company to proceed, and miraculin and the berry from whence it came were more or less forgotten in history.
 
@@ -18,7 +18,7 @@ The berry is hard to come by nowadays, but not impossible. In fact, it’s recen
 
 I recently found an online retailer selling tablets with miracle berry extract. Naturally, I ordered them and invited my friends over for our very own taste tripping party.
 
-{% img /images/posts/taste_tripping.jpg %}
+{% img /images/real/taste_tripping.jpg %}
 
 Among the foods we tried:
 
