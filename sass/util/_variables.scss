@@ -59,7 +59,7 @@ $headingsColor:         inherit !default; // empty to use BS default, @textColor
 // -------------------------
 $tableBackground:                   #fff !default; // overall background-color
 $tableBackgroundAccent:             #f9f9f9 !default; // for striping
-$tableBackgroundHover:              lighten(desaturate(#00b8cc, 80), 50) !default; // for hover
+$tableBackgroundHover:              lighten(desaturate(#00b8cc, 80), 57) !default; // for hover
 $tableBorder:                       #babfba !default; // table and cell border
 
 // Buttons

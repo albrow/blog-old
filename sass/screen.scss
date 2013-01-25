@@ -2,15 +2,8 @@
 @include global-reset;
 @include reset-html5;
 
-// @import "custom/colors";
-// @import "custom/fonts";
-// @import "custom/layout";
-// @import "base";
-// @import "partials";
-// @import "custom/styles";
-
-@import "alex/all";
-@import "base";
-@import "partials/syntax";
-@import "alex/tables"
+@import "util/all";
+@import "theme/all";
+@import "partials/all";
+@import "codeblock/all";
 
