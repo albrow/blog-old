@@ -180,6 +180,21 @@ hr {
 	}
 }
 
+.post-nav-container {
+	margin-bottom: 40px;
+	margin-top: 40px;
+}
+
+.next-post {
+	float: right;
+	text-align: right;
+}
+
+.previous-post {
+	float: left;
+	text-align: left;
+}
+
 // for extra-small screens (old mobile) 
 @media screen and (max-width: 470px) {
 	.topbar {
