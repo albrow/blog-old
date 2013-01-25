@@ -14,7 +14,7 @@ For a long time now, I’ve been working on a side project with my friend Brian.
 
 Brian and I formed a company (well technically it’s not a “company” yet) called Pearilous Mobile to sort of serve as an umbrella for Lexplode and any other games we decide to do in the future. Right now, we’re each working on our own independent projects over the summer (I’ll get to that later) so unfortunately we don’t have plans to release a second game anytime soon. However, in the more distant future, it is a real possibility.
 
-{% img /images/posts/lexplode.jpg %}
+{% img /images/digital/lexplode.jpg %}
 
 We recently released a private beta version of the Lexplode through a service called TestFlight. Please contact me at alex@pearlious.com if you are interested in becoming a beta tester! Based on the feedback we’ve received so far, we intend to make some changes to the game to make it a little bit easier. We will launch the game on the App Store after we feel we’ve sufficiently addressed the major concerns of our beta testers. Hopefully, it’ll be ready near the end of the summer. You can keep up with our progress on the game by following us on [facebook](https://www.facebook.com/PearilousMobile) or [twitter](https://twitter.com/#!/PearilousMobile).
 <br/>

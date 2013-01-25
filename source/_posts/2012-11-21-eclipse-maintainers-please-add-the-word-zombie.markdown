@@ -6,7 +6,7 @@ comments: true
 categories: 
 ---
 
-{% img /images/posts/zombie_mispelled.jpg %}
+{% img /images/digital/zombie_mispelled.jpg %}
 
 [Webster](http://www.merriam-webster.com/dictionary/zombie) recognizes it as a real word and so should you! I'd make the change myself and submit a pull request but I found the [hundreds of eclipse repositories](http://git.eclipse.org/c/) to be too daunting.
 

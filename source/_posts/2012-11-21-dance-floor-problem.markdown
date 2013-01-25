@@ -6,7 +6,7 @@ comments: true
 categories: 
 ---
 
-{% img /images/posts/dancefloor.jpg %}
+{% img /images/real/dancefloor.jpg %}
 
 ### The Problem
 If you’ve been following my blog, you know that I’ve been hard at work on my latest project, a crowd-sourced learning platform called NeoTeach. A few days ago, I was proud to open up a beta version of the site for content creators. It’s still far from being done, but right now you can go on the site, create an account, and start uploading videos. If you haven’t already, you can see it for yourself at neoteach.com.

@@ -281,7 +281,7 @@ of 1,000.
 
 Note the logarithmic scale on the folowing line chart...
 
-{% img /images/posts/ab-benchmark-chart.jpg %}
+{% img /images/digital/ab-benchmark-chart.jpg %}
 
 {% pullquote %}
 {" Based on average response time, the static site performed 2.65x (or 62.3%)
@@ -499,7 +499,7 @@ other tested sites!
 Conclusions
 -----------
 
-{% img /images/posts/all-benchmarks-chart.jpg %}
+{% img /images/digital/all-benchmarks-chart.jpg %}
 
 If you combine the load time averages from each of the three benchmark tools,
 you'll find that the changes I made **increased my blog performance by around

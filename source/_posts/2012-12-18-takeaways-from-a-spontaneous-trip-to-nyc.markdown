@@ -6,7 +6,7 @@ comments: true
 categories: 
 ---
 
-{% img /images/posts/private-jet.jpg %}
+{% img /images/real/private-jet.jpg %}
 
 ### The Context
 
@@ -76,4 +76,4 @@ metal wires become too slow and most of the world is switching to fiber optics?
 
 What would a more modular city look like? Maybe I'll talk about that in a future post.
 
-{% img /images/posts/nyc.jpg %} 
+{% img /images/real/nyc.jpg %} 
