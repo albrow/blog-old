@@ -14,6 +14,7 @@ group :development do
   gem 'stringex', '~> 1.4.0'
   gem 'liquid', '~> 2.3.0'
   gem 'aws-sdk'
+  gem 'nokogiri'
   gem 'colored'
 end
 
