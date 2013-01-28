@@ -48,7 +48,7 @@ or at least dirt cheap. I decided to give [Jekyll](https://github.com/mojombo/je
 a try. Jekyll is a static site generator written in Ruby and specifically
 designed for blogs. The basic idea is that instead of having a backend
 framework and a database, you can convert everything in your blog to
-plain old html files (like the olden days). Because Jekyll is so bare bones,
+plain html files (like the olden days). Because Jekyll is so bare bones,
 I also used [Octopress](http://octopress.org/), a blogging platform
 built on top of Jekyll that powers Github Pages. (I ended up trimming **a lot**
 of fat from it, saving only the pieces I needed). I expect that this will
