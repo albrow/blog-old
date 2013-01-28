@@ -155,10 +155,19 @@ class AWSDeployTools
 			return
 		elsif s3_keys.is_a? String
 			puts "--> invalidating #{s3_keys}...".yellow
-			paths = '<Path>/' + s3_keys + '</Path>'
+			# special case for root
+			if s3_keys == '/'
+				paths = '<Path>/</Path>'
+			else
+				paths = '<Path>/' + s3_keys + '</Path>'
+			end
 		elsif s3_keys.length > 0
 			puts "--> invalidating #{s3_keys.size} file(s)...".yellow
 			paths = '<Path>/' + s3_keys.join('</Path><Path>/') + '</Path>'
+			# special case for root
+			if s3_keys.include?('/')
+				paths.sub!('<Path>//</Path>', '<Path>/</Path>')
+			end
 		end
 
 		# digest calculation based on http://blog.confabulus.com/2011/05/13/cloudfront-invalidation-from-ruby/
