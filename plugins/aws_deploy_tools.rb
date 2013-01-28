@@ -18,6 +18,11 @@ class AWSDeployTools
 
 		@access_key_id = config['access_key_id']
 		@secret_access_key = config['secret_access_key']
+
+		# for privacy, allow user to store aws credentials in a shell env variable
+		@access_key_id ||= ENV['AWS_ACCESS_KEY_ID']
+		@secret_access_key ||= ENV['AWS_SECRET_ACCESS_KEY']
+
 		@bucket = config['bucket']
 		@acl = config['acl']
 		@cf_distribution_id = config['cf_distribution_id']
