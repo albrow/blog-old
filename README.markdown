@@ -32,11 +32,13 @@ This blog uses all or parts of the following (sometimes with modification):
 * [bootstrap-sass by Thomas McDonald](https://github.com/thomas-mcdonald/bootstrap-sass) – [(License)](https://github.com/thomas-mcdonald/bootstrap-sass/blob/master/LICENSE)
 * [Font Awesome by Dave Gandy](http://fortawesome.github.com/Font-Awesome) – [(License)](http://fortawesome.github.com/Font-Awesome/#license)
 
-Much thanks to everyone who contributed to the above projects!
+Much thanks to everyone who contributed to the above projects, and to any other projects, frameworks,
+or snippets of code that I've incorporated.
 
 
 ## LICENSE
 (The MIT License)
+
 Copyright (C) 2012, Alex Browne
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
