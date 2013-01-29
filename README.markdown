@@ -1,13 +1,13 @@
 ## What's This?
-This the code that powers my blog. It's based on Jekyll and Octopress. It's designed to be blazing fast and cheap to maintain. 
-It's current home on the internet is http://blog.alexbrowne.info.
+This is the code that powers my blog. It's based on Jekyll and Octopress. It's designed to be blazing fast
+and cheap to maintain. You can see it at http://blog.alexbrowne.info.
 
 I've decided to open-source it so that interested people can take a gander at the code. However, I haven't
 really designed this blog with modification and extension in mind. It's *not* a full-fledged blogging framework.
 I don't expect you to fork it or use it as is (but you are free to do so if you want to). Instead, I invite you
 to look at the interesting parts, learn from it, copy/modify parts of it, and give me some feedback if you want.
 
-There are tons of [other open-source Jekyll blogs](https://github.com/mojombo/jekyll/wiki/Sites) out there.
+If you're into this sort of thing, there are tons of [other open-source Jekyll blogs](https://github.com/mojombo/jekyll/wiki/Sites) out there.
 
 ## How it works
 * Posts are written in markdown and compiled to html. (a standard Jekyll feature)
@@ -17,7 +17,12 @@ There are tons of [other open-source Jekyll blogs](https://github.com/mojombo/je
 * Html, css, and javascript are automatically minified on deploy using jitify (optional).
 * All applicable content (fonts, css, html javascript, etc) is gzipped on deploy.
 * Files are stored/hosted on Amazon S3.
-* Files are cached on/distributed through Amazon Cloudfront.
+* Files are cached on and distributed through Amazon Cloudfront.
+
+## The Interesting Parts
+If you're interested in the deploy process, look at plugins/aws_deploy_tools.rb, plugins/red_dragonfly.rb and Rakefile.
+
+If you want to see the styles, look in the /sass directory.
 
 ## Acknowledgements
 This blog uses all or parts of the following (sometimes with modification): 
