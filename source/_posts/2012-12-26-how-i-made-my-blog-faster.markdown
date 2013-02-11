@@ -548,7 +548,7 @@ If you have any other tips on how I
 can make my blog even faster, or any suggestions for other benchmarks
 I could try, I'd love to hear it!
 
-
+[Discussion on Hacker News](http://news.ycombinator.com/item?id=4978159)
 
 
 
