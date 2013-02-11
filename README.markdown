@@ -13,7 +13,7 @@ If you're into this sort of thing, there are tons of [other open-source Jekyll b
 * Posts are written in markdown and compiled to html. (a standard Jekyll feature)
 * Stylesheets are written in sass and compiled down to a single css file. (a standard Octopress feature)
 * Syntax highlighting and other useful plugins are provided by Octopress.
-* Images are automatically compressed on deploy using ImageMagik.
+* Images are automatically compressed on deploy using ImageMagick.
 * Html, css, and javascript are automatically minified on deploy using jitify (optional).
 * All applicable content (fonts, css, html javascript, etc) is gzipped on deploy.
 * Files are stored/hosted on Amazon S3.
