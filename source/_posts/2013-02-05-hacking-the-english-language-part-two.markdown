@@ -6,7 +6,8 @@ date: 2013-02-10 12:05
 
 ## Intro
 
-In part one, I discussed some of the shortcomings of the English Language
+In [part one](/hacking-the-english-language/),
+I discussed some of the shortcomings of the English Language
 and how we might be able to fix them by using a phonetic alphabet. There were
 a few problems with this approach:
 

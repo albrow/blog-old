@@ -582,8 +582,8 @@ and (b) Ii didn't kunsidur "ŋ" tuu bee u yuuneek konsoonent.
 5. Noowun wil evur udopt this tiip uf speleeng bekuz thu problems with English, noo matur hou inaan, doon't reelee bothur moost peepul. Wee'r kumfoertubul with thu waa theengs aur. Aulsoo #2.
 
 <br/>
-And that's wii this blog poost wuz moostlee foer fun. Paurt 2 wil eksploer sum uthur iidee-us,
-inkluudeeng waas tuu fiks sum uf thu problems ubuv!
+And that's wii this blog poost wuz moostlee foer fun. [Paurt 2](/hacking-the-english-language-part-two/) 
+wil eksploer sum uthur iidee-us, inkluudeeng waas tuu fiks sum uf thu problems ubuv!
 
 [Discussion on Hacker News](http://news.ycombinator.com/item?id=5176468)
 
