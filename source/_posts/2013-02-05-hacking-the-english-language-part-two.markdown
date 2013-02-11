@@ -7,7 +7,7 @@ date: 2013-02-10 12:05
 ## Intro
 
 In [part one](/hacking-the-english-language/),
-I discussed some of the shortcomings of the English Language
+I discussed some of the shortcomings of the English language
 and how we might be able to fix them by using a phonetic alphabet. There were
 a few problems with this approach:
 
@@ -47,7 +47,7 @@ letters and sounds. Here are some other nice features:
 4. The name for each of the letters usually starts with the sound it makes. When this is not the case, the 
     sound the letter makes is the accented part of its name, as in mea**s**ure (𐑠) or hu**ng** (𐑙).
 5. The letters for voiced and unvoiced consonants are related by a 180&deg; rotation.
-6. The eight ligatures are shaped like a combination of the letters they represent. For example, the ligature
+6. The eight ligatures are usually shaped like a combination of the letters they represent. For example, the ligature
     yew (𐑿) is shaped like a combination of yea (𐑘) and ooze (𐑵).
 
 Adoption of the Shavian Alphabet has been pretty minimal, as you might have guessed. However, there has been
