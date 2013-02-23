@@ -80,6 +80,19 @@ class AWSDeployTools
 		if file.is_a? String
 			file = File.open(file, 'r')
 		end
+
+		# detect content type		
+		require 'mime/types'
+		file_path = file.path
+		# remove the .gz extension so the base extension will
+		# be used to determine content type. E.g. we want the
+		# type of index.html.gz to be text/html
+		if file_path.include? ".gz"
+			file_path.gsub!(".gz", "")
+		end
+		content_type = MIME::Types.type_for(File.extname(file_path)).first.to_s
+		content_type_hash = {:content_type => content_type}
+		options.merge! content_type_hash
 		
 		puts "--> pushing #{file.path} to #{s3_key}...".green
     obj = @s3.buckets[@bucket].objects[s3_key]
