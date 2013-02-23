@@ -8,8 +8,8 @@ date: 2013-02-10 12:05
 
 In [part one](/hacking-the-english-language/),
 I discussed some of the shortcomings of the English language
-and how we might be able to fix them by using a phonetic alphabet. There were
-a few problems with this approach:
+and how we might be able to fix them by using a phonetic alphabet. There are
+a few problems with that approach:
 
 1. Heterographs are impossible to distinguish in written text.
 2. Frankly, it looks stupid.
@@ -145,3 +145,5 @@ If you're curious, check out the [Wikipedia page](http://en.wikipedia.org/wiki/L
 The English language is odd. We could improve it, or better yet ditch it entirely, but we won't.
 English is simply embeded in our culture and it's here to stay. Still though, it can be interesting
 to explore the "what if?"
+
+[Discussion on Hacker News](http://news.ycombinator.com/item?id=5199391)
