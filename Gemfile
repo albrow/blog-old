@@ -16,6 +16,7 @@ group :development do
   gem 'aws-sdk'
   gem 'nokogiri'
   gem 'colored'
+  gem 'rails' # used for mimetype detection
 end
 
 gem 'sinatra', '~> 1.3.2'
