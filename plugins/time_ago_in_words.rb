@@ -11,8 +11,8 @@
 # 
 ###
 
-module Liquid
-	module StandardFilters
+module Jekyll
+  module TimeFilter
 		def time_ago_in_words(input)      
 			one_minute = 60
 			one_hour = 60 * one_minute
@@ -34,48 +34,48 @@ module Liquid
 
 			if seconds_ago < 0
 				words = "in the future"
-			
+
 			elsif seconds_ago < 10
 				words = "just now"
-			
+
 			elsif seconds_ago < one_minute
 				words = seconds_ago.round.to_s + " seconds ago"
-			
+
 
 			elsif seconds_ago < 2 * one_minute
 				words = "about a minute ago"
-			
+
 			elsif seconds_ago < one_hour
 				words = (seconds_ago/one_minute).round.to_s + " minutes ago"
-			
+
 
 			elsif seconds_ago < 2 * one_hour
 				words = "about an hour ago"
-			
+
 			elsif seconds_ago < one_day
 				words = (seconds_ago/one_hour).round.to_s + " hours ago"
-			
+
 
 			elsif seconds_ago < 2 * one_day
 				words = "about a day ago"
-			
+
 			elsif seconds_ago < one_week
 				words = (seconds_ago/one_day).round.to_s + " days ago"
-			
+
 
 			elsif seconds_ago < 2 * one_week
 				words = "about a week ago"
-			
+
 			elsif seconds_ago < one_month
 				words = (seconds_ago/one_week).round.to_s + " weeks ago"
-			
+
 
 			elsif seconds_ago < 2 * one_month
 				words = "about a month ago"
-			
+
 			elsif seconds_ago < one_year
 				words = (seconds_ago/one_month).round.to_s + " months ago"
-			
+
 
 			elsif seconds_ago < 2 * one_year
 				words = "about a year ago"
@@ -98,7 +98,8 @@ module Liquid
 								#{script}"
 
 			return output
-
 		end
 	end
 end
+
+Liquid::Template.register_filter(Jekyll::TimeFilter)
