@@ -1,0 +1,83 @@
+---
+layout: post
+title: "Summer Update 2013"
+date: 2013-07-09 18:13
+---
+
+So... this one has been a long time coming. Here's a look at what I've been up to this summer and what's coming next.
+
+## Hello, San Francisco!
+
+{% img /images/real/goldengate.jpg %}
+
+This summer, I'm participating in the Duke-sponsored Summer Innovation Program. It's the same
+program I did last summer in Durham, except this time, I'm in San Francisco. I've been here
+for about a month and a half now.
+
+Speaking generally, SF feels like a more chill version of New York. There are plenty of successful
+people and plenty of things to do, but there's not that stereotypical "rushed" feeling that
+people tend to associate with large cities. It's easy to start a conversation with a stranger, and
+I've already met a ton of interesting and friendly people.
+
+This is ***the*** place to be for technological people. It is not uncommon to overhear people on the
+street talking about iPhone application mockups, the pros and cons of using jQuery over vanilla javascript,
+or the differences between compiled and interpreted languages (in fact those are all actual examples of
+conversations I overheard). Walking through the streets of San Francisco is like walking through a physical
+manifestation of the internet, with famed tech companies everywhere you look. And that's good for a lot of
+reasons: I feel like I fit in here, it'll be easier to find technical cofounders or early employees,
+and there's plenty of jobs for programmers if I ever find myself in a financial pinch.
+
+The only downside I've found is that the cost of living here is high, sometimes absurdly so.
+Luckily there are enough sources of funding (like the program I'm in now) to afford basic needs.
+Though this is no place to raise a family, as a 20-year-old bachelor, I can get by fine for now.
+
+## Where I Live
+
+I'm rooming with two friends, Fabio and Soroush (the same friends that were with me during my trip to
+New York last year). We share a tiny one bedroom apartment in the Mission District, which is known for
+great food, cool murals, and (compared to other areas) cheap-ish living. The cheapness comes from the
+fact that it's not the nicest place to live. The streets reek of the second smell of San Francisco
+and there's a lot of homeless people wandering around. Still, it doesn't feel dangerous, and the great
+food and night scene make it a decent place to live for people my age.
+
+## Where I Work
+
+Every morning we take a BART to our offices in RocketSpace, a medium-sized shared workspace in downtown
+SF. There are about 130 startups here. Most are later stage, with at least some funding, and only about
+half have their founders working here. Some larger companies use RocketSpace as a satellite office. I've
+made a few friends around the office and everyone seems talented and friendly.
+
+We work what might seem like ridiculous hours: 11am to midnight every weekday. As you can imagine,
+we're pretty much beat by the end of the week, which is why we take weekends off– focusing 100% on doing
+something fun and forgetting about our work for a while.
+
+## What I'm Working On
+
+CrowdCourse is abandoned but not forgotten (I may pick it back up again some day). I used the lessons
+I learned during my previous venture to help drive my decisions about what I wanted to do next. The idea
+I decided on is something I'm really happy about. The value proposition is clear. I sell to businesses 
+instead of consumers. That means I'll be generating revenue *directly* from my customers instead of bothering
+with annoying (and often user-alienating) indirect profit models like advertisements, selling private data, etc.
+The problem is really technically challenging, but I've realized I'd much rather have a product that leans toward
+being difficult to build than one which is difficult to sell. This is something I can really stand behind.
+
+{% img /images/digital/turnout-logo.png %}
+
+My latest project is called Turnout. We provide automatic targeting and segmentation for ecommerce
+sites. Or put another way, we increase conversions and sales by always presenting visitors with relevant,
+personalized content. After about two months of development, we recently opened up a private beta for a handful of
+customers. I'm really excited about the project and the underlying problem both challenges and fascinates me. I
+get to work with some of the latest and greatest technologies including Redis and the Go Programming Language.
+It really doesn't feel like work to me, and I'm the happiest I've been in a long time.
+
+I'm currently working on the project alone, and I singlehandedly built the prototype. However I am looking
+for at least one partner (and as I mentioned earlier, this area is a great place to look).
+
+## What's Coming Next
+
+The future is hard to predict, but I'm optimistic. Within a week I'll have my first paying customers,
+which is a huge milestone for me personally. I will be returning to school in the fall, where I will
+continue to work on Turnout while simultaneously doing classwork. By the end of my senior year at Duke,
+my hope is to have a refined product and enough customers to self-sustain the company and cover my personal
+expenses (housing, food, transport). If I can't get the traction I need, I'll either pivot or start a new
+project from scratch. Either way I'll be back here in San Francisco next summer.

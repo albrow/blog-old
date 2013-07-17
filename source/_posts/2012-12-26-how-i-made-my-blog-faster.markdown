@@ -486,7 +486,6 @@ What might be more interesting, though, is that this tool showed something
 that the others didn't: the static site has ***much better*** global performance.
 This is particularly noticeable in Amsterdam, where the average load time
 was only 200 ms, 6 times faster than the dynamic site performed at that location.
-(Funny, because you might expect everything to run a little lazier there).
 
 The Pingdom full page tester also reports how your website compares to all
 other tested websites in their database. While the dynamic site performed around
