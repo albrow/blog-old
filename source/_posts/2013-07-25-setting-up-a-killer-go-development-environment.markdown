@@ -54,8 +54,6 @@ from any directory. (Again, this would be for Mac OS or Linux.)
 
     export PATH=$PATH:$GOPATH/bin
 
-#### A Note On Path Names
-
 All the code you write should reside inside the `src` directory. Since all Go packages must have unique path names,
 it's a good idea to use either your website name or your github profile as a prefix. For example, all my code resides
 in `$GOPATH/src/github.com/stephenalexbrowne/`.
