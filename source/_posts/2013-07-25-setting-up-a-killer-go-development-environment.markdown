@@ -11,8 +11,7 @@ server using git post-recieve hooks.
 
 ## What's Go?
 
-[Go]("http://en.wikipedia.org/wiki/Go_(programming_language)")
-(sometimes called "golang") is a programming language created by Google engineers in 2009.
+Go (sometimes called "golang") is a programming language created by Google engineers in 2009.
 It features an intuitive concurrency model, fast compile times, static-typing, and full garbage collection.
 It's a general-purpose systems programming language with some of the syntax and convenience of modern scripting
 languages.
