@@ -33,7 +33,7 @@ Go has a pretty small standard library, and you'll be surprised how fast you can
 ## Step 1: The Go Workspace
 
 For the Go build tools to work best, it is expected that you follow the conventional directory
-structure. You'll need to create a workspace somwhere (I put mine in `~/Documents/programming/go`) with the
+structure. You'll need to create a workspace somewhere (I put mine in `~/Documents/programming/go`) with the
 following three subdirectories...
 
 1. `src` contains Go source files organized into packages (one package per directory),
@@ -54,7 +54,7 @@ from any directory. (Again, this would be for Mac OS or Linux.)
 
     export PATH=$PATH:$GOPATH/bin
 
-All the code you write should reside inside the `src` directory. Since all Go packages must have unique path names,
+All the code you write should reside in the `src` directory. Since all Go packages must have unique path names,
 it's a good idea to use either your website name or your github profile as a prefix. For example, all my code resides
 in `$GOPATH/src/github.com/stephenalexbrowne/`.
 
@@ -79,13 +79,13 @@ If you follow the steps above, here's all the cool features you get:
 
 - **Open a file or folder from the command line** using `subl filename` or `subl .` If you open a folder, you'll see all the files in the folder on the lefthand side of the editor
 - **Intelligent linting** Your editor can detect syntax errors before you even compile
-- **Automatic code formating** Every time you save a file, it will automatically be formatted
+- **Automatic code formatting** Every time you save a file, it will automatically be formatted
   according to convention using gofmt
 - **Context aware code completion** Scans the current file and all imported packages for
   relevant methods and fields
 - Use `ctrl` + `.`, `ctrl` + `P` to quickly add/remove packages
-- Instant documentation with `ctrl` + `.` + `click`
-- Jump to definition with `ctrl` + `.` + `right click`
+- Instant documentation with `ctrl` + `shift` + `click`
+- Jump to definition with `ctrl` + `shift` + `right click`
 - Run all tests or a single test function with `ctrl` + `.`, `ctrl` + `T`
 - And [much, much more](https://github.com/DisposaBoy/GoSublime/blob/master/USAGE.md)
 
