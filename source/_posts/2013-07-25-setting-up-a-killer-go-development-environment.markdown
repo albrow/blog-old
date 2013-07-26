@@ -11,7 +11,8 @@ server using git post-recieve hooks.
 
 ## What's Go?
 
-Go (sometimes called golang) is a programming language created by Google engineers in 2009.
+[Go]("http://en.wikipedia.org/wiki/Go_(programming_language)")
+(sometimes called "golang") is a programming language created by Google engineers in 2009.
 It features an intuitive concurrency model, fast compile times, static-typing, and full garbage collection.
 It's a general-purpose systems programming language with some of the syntax and convenience of modern scripting
 languages.
@@ -79,29 +80,35 @@ Here's what you do:
 
 If you follow the steps above, here's all the cool features you get:
 
-- **Open a file or folder from the command line** using `subl filename` or `subl .`. If you open a folder, you'll see all the files in the folder on the lefthand side of the editor
-- **Intelligent linting**. Often your editor will detect errors before you even compile
-- **Automatic code formating**. Every time you save a file, it will automatically be formatted
+- **Open a file or folder from the command line** using `subl filename` or `subl .` If you open a folder, you'll see all the files in the folder on the lefthand side of the editor
+- **Intelligent linting** Your editor can detect syntax errors before you even compile
+- **Automatic code formating** Every time you save a file, it will automatically be formatted
   according to convention using gofmt
 - **Context aware code completion** Scans the current file and all imported packages for
   relevant methods and fields
-- **Use `ctrl` + `.`, `ctrl` + `P` to quickly add/remove packages** (`cmd` + `.`, `cmd` + `P` for Mac)
-- **Instant documentation with `ctrl` + `.` + `click`** (`cmd` + `.` + `click` for Mac)
-- **Jump to definition with `ctrl` + `.` + `right click`** (`cmd` + `.` + `right click` for Mac)
-- **Run all tests or a single test function with `ctrl` + `.`, `ctrl` + `T`** (`cmd` + `.`, `cmd` + `T` for Mac)
+- Use `ctrl` + `.`, `ctrl` + `P` to quickly add/remove packages
+- Instant documentation with `ctrl` + `.` + `click`
+- Jump to definition with `ctrl` + `.` + `right click`
+- Run all tests or a single test function with `ctrl` + `.`, `ctrl` + `T`
 - And [much, much more](https://github.com/DisposaBoy/GoSublime/blob/master/USAGE.md)
+
+*Note: if you're on Mac OS, just replace* `ctrl` *with* `cmd`*.*
 
 ## Conclusion
 
-That's it. I hope that this helps you crank out some powerful Go applications. Next time I'll show you how I 
-set up a powerful production server on Amazon EC2.
+That's it! I hope that this helps you crank out some powerful Go applications. Next time I'll show you how I 
+set up and easily deploy to a production server on Amazon EC2.
 
-Happy coding!
+Are you a fan of Go? Show your support with a [laptop sticker](https://golangstickers.herokuapp.com/)
+featuring the gopher mascot.
+
+<a href="https://golangstickers.herokuapp.com/" class="btn btn-blue btn-large center">Get Yours!</a>
 
 <br/>
 <br/>
 
-*The gopher mascot was designed by [Renée French](http://reneefrench.blogspot.com/)
-and is licensed under the [Creative Commons Attribution 3.0](http://creativecommons.org/licenses/by/3.0/) license.*
+<span class="small">The gopher mascot was designed by [Renée French](http://reneefrench.blogspot.com/)
+and is licensed under the [Creative Commons Attribution 3.0](http://creativecommons.org/licenses/by/3.0/) license.
+</span>
 
 
