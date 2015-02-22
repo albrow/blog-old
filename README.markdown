@@ -1,3 +1,9 @@
+## This Blog is Old
+
+The new one is being developed at https://github.com/albrow/blog, but it's not quite ready yet. The
+new version will be powered by [scribble](https://github.com/albrow/scribble), a tiny static blog generator
+written in go.
+
 ## What's This?
 This is the code that powers my blog. It's based on Jekyll and Octopress. It's designed to be blazing fast
 and cheap to maintain. You can see it at http://blog.alexbrowne.info.
